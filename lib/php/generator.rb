@@ -297,5 +297,17 @@ module PHP
     def process_const(exp)
       Identifier.new(exp.shift)
     end
+
+    ##
+    # Processes `[:if, condition, then_statement, else_statement]` expressions.
+    #
+    # @example
+    #   process([:if, [:true], [:lit, 1], [:lit, 0]])
+    #
+    # @param  [Array(Array, Array, Array)] exp
+    # @return [Identifier]
+    def process_if(exp)
+      Statement::If.new(process(exp.shift), process(exp.shift), process(exp.shift))
+    end
   end
 end

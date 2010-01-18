@@ -142,6 +142,21 @@ describe PHP::Generator do
     it "should support instance method calls"
   end
 
+  context "conditional statements" do
+    it "should support if/then statements" do # FIXME
+      php('if true then 1 end').to_s.should == 'if (TRUE) { 1 }'
+      php{ if true then 1 end }.to_s.should == 'if (TRUE) { 1 }'
+    end
+
+    it "should support if/then/else statements" do # FIXME
+      php('if true then 1 else 0 end').to_s.should == 'if (TRUE) { 1 } else { 0 }'
+      php{ if true then 1 else 0 end }.to_s.should == 'if (TRUE) { 1 } else { 0 }'
+    end
+
+    it "should support unless statements"
+    it "should support unless/else statements"
+  end
+
   def php(input = nil, &block)
     if block_given?
       PHP::Generator.process(&block)
