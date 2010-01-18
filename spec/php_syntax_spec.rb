@@ -105,3 +105,12 @@ describe PHP::Literal do
     end
   end
 end
+
+describe PHP::Class do
+  context "when created" do
+    it "should require a class name" do
+      lambda { PHP::Class.new }.should raise_error(ArgumentError)
+      lambda { PHP::Class.new(:foo) }.should_not raise_error(ArgumentError)
+    end
+  end
+end
