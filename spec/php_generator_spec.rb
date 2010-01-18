@@ -63,7 +63,11 @@ describe PHP::Generator do
       php{ lambda {} }.to_s.should == 'function() {}'
     end
 
-    it "should support anonymous functions of one argument"
+    it "should support anonymous functions of one argument" do
+      php('lambda { |x| }').to_s.should == 'function($x) {}'
+      php{ lambda { |x| } }.to_s.should == 'function($x) {}'
+    end
+
     it "should support anonymous functions of many arguments"
     it "should support named functions of zero arguments"
     it "should support named functions of one argument"

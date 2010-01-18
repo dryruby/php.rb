@@ -109,8 +109,36 @@ module PHP
     # @param  [Array<Object>] exp
     # @return [Variable]
     def process_iter(exp)
-      Function.new(nil)
+      spec, args, body = exp
+      if args.nil?
+        Function.new(nil)
+      else
+        Function.new(nil, :parameters => [process(args)].flatten)
+      end
     end
 
+    ##
+    # Processes `[:lasgn, symbol]` expressions.
+    #
+    # @example
+    #   process([:lasgn, :x])
+    #
+    # @param  [Array(Symbol)] exp
+    # @return [Variable]
+    def process_lasgn(exp)
+      Variable.new(exp.shift)
+    end
+
+    ##
+    # Processes `[:dasgn_curr, symbol]` expressions.
+    #
+    # @example
+    #   process([:dasgn_curr, :x])
+    #
+    # @param  [Array(Symbol)] exp
+    # @return [Variable]
+    def process_dasgn_curr(exp)
+      Variable.new(exp.shift)
+    end
   end
 end
