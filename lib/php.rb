@@ -1,9 +1,7 @@
-require 'sexp_processor'
-require 'parse_tree'
-require 'parse_tree_extensions'
 require 'php/version'
 
 module PHP
+  # Abstract Syntax Tree (AST) classes
   autoload :Class,      'php/syntax/class'
   autoload :Comment,    'php/syntax/comment'
   autoload :Constant,   'php/syntax/constant'
@@ -17,4 +15,7 @@ module PHP
   autoload :Program,    'php/syntax/program'
   autoload :Statement,  'php/syntax/statement'
   autoload :Variable,   'php/syntax/variable'
+
+  # PHP code generator
+  autoload :Generator,  'php/generator'
 end

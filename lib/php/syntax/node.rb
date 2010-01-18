@@ -65,7 +65,7 @@ module PHP
     private
 
       # Prevent the instantiation of this class:
-      private_class_method :new
+      #private_class_method :new
 
       def self.inherited(child) # @private
         # Enable the instantiation of any subclasses:
