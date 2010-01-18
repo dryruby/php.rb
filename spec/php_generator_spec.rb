@@ -142,19 +142,40 @@ describe PHP::Generator do
     it "should support instance method calls"
   end
 
-  context "conditional statements" do
-    it "should support if/then statements" do # FIXME
+  context "control structures" do
+    it "should support return statements" do
+      php('return').to_s.should == 'return'
+      php{ return }.to_s.should == 'return'
+      php('return nil').to_s.should == 'return NULL'
+      php{ return nil }.to_s.should == 'return NULL'
+      php('return true').to_s.should == 'return TRUE'
+      php{ return true }.to_s.should == 'return TRUE'
+      php('return 42').to_s.should == 'return 42'
+      php{ return 42 }.to_s.should == 'return 42'
+    end
+
+    it "should support if statements" do # FIXME
       php('if true then 1 end').to_s.should == 'if (TRUE) { 1 }'
       php{ if true then 1 end }.to_s.should == 'if (TRUE) { 1 }'
     end
 
-    it "should support if/then/else statements" do # FIXME
+    it "should support if/else statements" do # FIXME
       php('if true then 1 else 0 end').to_s.should == 'if (TRUE) { 1 } else { 0 }'
       php{ if true then 1 else 0 end }.to_s.should == 'if (TRUE) { 1 } else { 0 }'
     end
 
+    it "should support if/elseif statements"
+
     it "should support unless statements"
     it "should support unless/else statements"
+
+    it "should support while statements"
+    it "should support do-while statements"
+    it "should support for statements"
+    it "should support foreach statements"
+    it "should support break statements"
+    it "should support continue statements"
+    it "should support switch statements"
   end
 
   def php(input = nil, &block)

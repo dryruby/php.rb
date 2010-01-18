@@ -299,13 +299,25 @@ module PHP
     end
 
     ##
+    # Processes `[:return, [...]]` expressions.
+    #
+    # @example
+    #   process([:return, [:nil]])
+    #
+    # @param  [Array] exp
+    # @return [Statement::Return]
+    def process_return(exp)
+      Statement::Return.new(exp.empty? ? nil : process(exp.shift))
+    end
+
+    ##
     # Processes `[:if, condition, then_statement, else_statement]` expressions.
     #
     # @example
     #   process([:if, [:true], [:lit, 1], [:lit, 0]])
     #
     # @param  [Array(Array, Array, Array)] exp
-    # @return [Identifier]
+    # @return [Statement::If]
     def process_if(exp)
       Statement::If.new(process(exp.shift), process(exp.shift), process(exp.shift))
     end

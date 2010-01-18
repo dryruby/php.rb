@@ -11,6 +11,39 @@ module PHP
     end
 
     ##
+    class Return < Statement
+      ##
+      # @return [Expression]
+      attr_accessor :value
+
+      ##
+      # @param  [Expression] value
+      def initialize(value)
+        @value = value
+      end
+
+      ##
+      # Returns `true` if this statement has a value.
+      #
+      # @return [Boolean]
+      def value?
+        !value.nil?
+      end
+
+      ##
+      # Returns the PHP representation of this return statement.
+      #
+      # @return [String]
+      def to_php
+        if value?
+          "return #{value}"
+        else
+          "return"
+        end
+      end
+    end
+
+    ##
     class If < Statement
       attr_accessor :condition
       attr_accessor :then_branch
