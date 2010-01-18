@@ -32,27 +32,39 @@ module PHP
     end
 
     ##
-    # Processes `[:nil]`.
+    # Processes `[:nil]` expressions.
     #
+    # @param  [Array<Object>] exp
     # @return [Literal]
     def process_nil(exp)
       Literal.new(nil)
     end
 
     ##
-    # Processes `[:false]`.
+    # Processes `[:false]` expressions.
     #
+    # @param  [Array<Object>] exp
     # @return [Literal]
     def process_false(exp)
       Literal.new(false)
     end
 
     ##
-    # Processes `[:true]`.
+    # Processes `[:true]` expressions.
     #
+    # @param  [Array<Object>] exp
     # @return [Literal]
     def process_true(exp)
       Literal.new(true)
+    end
+
+    ##
+    # Processes `[:lit, value]` expressions.
+    #
+    # @param  [Array<Object>] exp
+    # @return [Literal]
+    def process_lit(exp)
+      Literal.new(exp.shift)
     end
   end
 end

@@ -1,13 +1,25 @@
 require File.join(File.dirname(__FILE__), 'spec_helper')
 
 describe PHP::Generator do
-  it "should support null literals" do
-    php('nil').to_s.should == 'NULL'
-  end
+  context "literals" do
+    it "should support null literals" do
+      php('nil').to_s.should == 'NULL'
+    end
 
-  it "should support boolean literals" do
-    php('false').to_s.should == 'FALSE'
-    php('true').to_s.should  == 'TRUE'
+    it "should support boolean literals" do
+      php('false').to_s.should == 'FALSE'
+      php('true').to_s.should  == 'TRUE'
+    end
+
+    it "should support integer literals" do
+      php('42').to_s.should == '42'
+    end
+
+    it "should support float literals" do
+      php('3.1415').to_s.should == '3.1415'
+    end
+
+    it "should support string literals"
   end
 
   def php(input = nil, &block)
