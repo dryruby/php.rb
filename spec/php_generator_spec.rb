@@ -149,41 +149,41 @@ describe PHP::Generator do
   end
 
   context "arithmetic operators" do
-    it "should support negation" do
+    it "should support the - (negation) operator" do
       php('-1').to_s.should == '-1'
       php{ -1 }.to_s.should == '-1'
       # php('-a').to_s.should == '-$a' TODO
     end
 
-    it "should support addition" do
+    it "should support the + (addition) operator" do
       php('6 + 7').to_s.should == '6 + 7'
       php{ 6 + 7 }.to_s.should == '6 + 7'
       php('a + b').to_s.should == '$a + $b'
       php{ a + b }.to_s.should == '$a + $b'
     end
 
-    it "should support subtraction" do
+    it "should support the - (subtraction) operator" do
       php('6 - 7').to_s.should == '6 - 7'
       php{ 6 - 7 }.to_s.should == '6 - 7'
       php('a - b').to_s.should == '$a - $b'
       php{ a - b }.to_s.should == '$a - $b'
     end
 
-    it "should support multiplication" do
+    it "should support the * (multiplication) operator" do
       php('6 * 7').to_s.should == '6 * 7'
       php{ 6 * 7 }.to_s.should == '6 * 7'
       php('a * b').to_s.should == '$a * $b'
       php{ a * b }.to_s.should == '$a * $b'
     end
 
-    it "should support division" do
+    it "should support the / (division) operator" do
       php('6 / 7').to_s.should == '6 / 7'
       php{ 6 / 7 }.to_s.should == '6 / 7'
       php('a / b').to_s.should == '$a / $b'
       php{ a / b }.to_s.should == '$a / $b'
     end
 
-    it "should support modulus" do
+    it "should support the % (modulus) operator" do
       php('6 % 7').to_s.should == '6 % 7'
       php{ 6 % 7 }.to_s.should == '6 % 7'
       php('a % b').to_s.should == '$a % $b'
@@ -192,7 +192,7 @@ describe PHP::Generator do
   end
 
   context "assignment operators" do
-    it "should support assignments" do
+    it "should support the = (assignment) operator" do
       php('x = 42').to_s.should == '$x = 42'
       php{ x = 42 }.to_s.should == '$x = 42'
       php('a = b').to_s.should == '$a = $b'
@@ -201,37 +201,37 @@ describe PHP::Generator do
   end
 
   context "bitwise operators" do
-    it "should support the bitwise and operator" do
+    it "should support the & (bitwise and) operator" do
       php('1 & 0').to_s.should == '1 & 0'
       php{ 1 & 0 }.to_s.should == '1 & 0'
       php('a & b').to_s.should == '$a & $b'
       php{ a & b }.to_s.should == '$a & $b'
     end
 
-    it "should support the bitwise or operator" do
+    it "should support the | (bitwise or) operator" do
       php('1 | 0').to_s.should == '1 | 0'
       php{ 1 | 0 }.to_s.should == '1 | 0'
       php('a | b').to_s.should == '$a | $b'
       php{ a | b }.to_s.should == '$a | $b'
     end
 
-    it "should support the bitwise xor operator" do
+    it "should support the ^ (bitwise xor) operator" do
       php('1 ^ 0').to_s.should == '1 ^ 0'
       php{ 1 ^ 0 }.to_s.should == '1 ^ 0'
       php('a ^ b').to_s.should == '$a ^ $b'
       php{ a ^ b }.to_s.should == '$a ^ $b'
     end
 
-    it "should support the bitwise not operator" do
+    it "should support the ~ (bitwise not) operator" do
       php('~1').to_s.should == '~1'
       php{ ~1 }.to_s.should == '~1'
       php('~x').to_s.should == '~$x'
       php{ ~x }.to_s.should == '~$x'
     end
 
-    #it "should support the bitwise left shift operator" # TODO
+    #it "should support the << (bitwise left shift) operator" # TODO
 
-    it "should support the bitwise right shift operator" do
+    it "should support the >> (bitwise right shift) operator" do
       php('8 >> 2').to_s.should == '8 >> 2'
       php{ 8 >> 2 }.to_s.should == '8 >> 2'
       php('a >> b').to_s.should == '$a >> $b'
@@ -240,7 +240,46 @@ describe PHP::Generator do
   end
 
   context "comparison operators" do
-    # TODO
+    it "should support the == (equal to) operator" do
+      php('a == b').to_s.should == '$a == $b'
+      php{ a == b }.to_s.should == '$a == $b'
+    end
+
+    it "should support the === (identical to) operator" do
+      php('a === b').to_s.should == '$a === $b'
+      php{ a === b }.to_s.should == '$a === $b'
+    end
+
+    it "should support the != (not equal to) operator" do
+      php('a != b').to_s.should == '$a != $b'
+      php{ a != b }.to_s.should == '$a != $b'
+    end
+
+    it "should support the !== (not identical to) operator" do
+      # NOTE: the following is not valid Ruby syntax, unfortunately:
+      #php('a !== b').to_s.should == '$a !== $b'
+      #php{ a !== b }.to_s.should == '$a !== $b'
+    end
+
+    it "should support the < (less than) operator" do
+      php('a < b').to_s.should == '$a < $b'
+      php{ a < b }.to_s.should == '$a < $b'
+    end
+
+    it "should support the > (greater than) operator" do
+      php('a > b').to_s.should == '$a > $b'
+      php{ a > b }.to_s.should == '$a > $b'
+    end
+
+    it "should support the <= (less than or equal to) operator" do
+      php('a <= b').to_s.should == '$a <= $b'
+      php{ a <= b }.to_s.should == '$a <= $b'
+    end
+
+    it "should support the >= (greater than or equal to) operator" do
+      php('a >= b').to_s.should == '$a >= $b'
+      php{ a >= b }.to_s.should == '$a >= $b'
+    end
   end
 
   context "execution operators" do
@@ -248,14 +287,14 @@ describe PHP::Generator do
   end
 
   context "logical operators" do
-    it "should support the logical not operator" do
+    it "should support the ! (logical not) operator" do
       php('!true').to_s.should == '!TRUE'
       php{ !true }.to_s.should == '!TRUE'
       php('!a').to_s.should == '!$a'
       php{ !a }.to_s.should == '!$a'
     end
 
-    it "should support the logical and operator" do
+    it "should support the && (logical and) operator" do
       php('true && false').to_s.should == 'TRUE && FALSE'
       php{ true && false }.to_s.should == 'TRUE && FALSE'
       php('a and b').to_s.should == '$a && $b'
@@ -264,7 +303,7 @@ describe PHP::Generator do
       php{ a && b }.to_s.should == '$a && $b'
     end
 
-    it "should support the logical or operator" do
+    it "should support the || (logical or) operator" do
       php('true || false').to_s.should == 'TRUE || FALSE'
       php{ true || false }.to_s.should == 'TRUE || FALSE'
       php('a or b').to_s.should == '$a || $b'

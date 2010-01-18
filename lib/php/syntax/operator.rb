@@ -4,20 +4,28 @@ module PHP
   class Operator < Expression
     def self.for(operator)
       case operator
-        when :+    then Arithmetic::Addition
-        when :-    then Arithmetic::Subtraction
-        when :*    then Arithmetic::Multiplication
-        when :'/'  then Arithmetic::Division
-        when :'%'  then Arithmetic::Modulus
-        when :~    then Bitwise::Not
-        when :&    then Bitwise::And
-        when :|    then Bitwise::Or
-        when :^    then Bitwise::Xor
-        when :>>   then Bitwise::ShiftRight
-        when :<<   then String:Concatenation
-        when :'!'  then Logical::Not
-        when :'&&' then Logical::And
-        when :'||' then Logical::Or
+        when :+     then Arithmetic::Addition
+        when :-     then Arithmetic::Subtraction
+        when :*     then Arithmetic::Multiplication
+        when :'/'   then Arithmetic::Division
+        when :'%'   then Arithmetic::Modulus
+        when :~     then Bitwise::Not
+        when :&     then Bitwise::And
+        when :|     then Bitwise::Or
+        when :^     then Bitwise::Xor
+        when :>>    then Bitwise::ShiftRight
+        when :==    then Comparison::Equal
+        when :===   then Comparison::Identical
+        when :'!='  then Comparison::NotEqual
+        when :'!==' then Comparison::NotIdentical
+        when :<     then Comparison::LessThan
+        when :>     then Comparison::MoreThan
+        when :<=    then Comparison::LessOrEqual
+        when :>=    then Comparison::MoreOrEqual
+        when :<<    then String:Concatenation
+        when :'!'   then Logical::Not
+        when :'&&'  then Logical::And
+        when :'||'  then Logical::Or
       end
     end
 
@@ -194,6 +202,52 @@ module PHP
       ##
       class ShiftRight < Binary
         def operator() :>> end
+      end
+    end
+
+    ##
+    # @see http://php.net/manual/en/language.operators.comparison.php
+    module Comparison
+      OPERATORS = [:==, :===, :'!=', :'!==', :<, :>, :<=, :>=]
+
+      ##
+      class Equal < Binary
+        def operator() :== end
+      end
+
+      ##
+      class Identical < Binary
+        def operator() :=== end
+      end
+
+      ##
+      class NotEqual < Binary
+        def operator() :'!=' end
+      end
+
+      ##
+      class NotIdentical < Binary
+        def operator() :'!==' end
+      end
+
+      ##
+      class LessThan < Binary
+        def operator() :< end
+      end
+
+      ##
+      class MoreThan < Binary
+        def operator() :> end
+      end
+
+      ##
+      class LessOrEqual < Binary
+        def operator() :<= end
+      end
+
+      ##
+      class MoreOrEqual < Binary
+        def operator() :>= end
       end
     end
 
