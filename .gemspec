@@ -31,5 +31,6 @@ GEMSPEC = Gem::Specification.new do |gem|
   gem.add_development_dependency 'yard' ,          '>= 0.5.2'
   gem.add_runtime_dependency     'sexp_processor', '>= 3.0.3'
   gem.add_runtime_dependency     'ParseTree',      '>= 3.0.4'
+  gem.add_runtime_dependency     'ruby_parser',    '>= 2.0.4'
   gem.post_install_message       = nil
 end
