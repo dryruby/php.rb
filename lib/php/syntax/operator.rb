@@ -34,6 +34,21 @@ module PHP
     end
 
     ##
+    # @see http://www.php.net/manual/en/language.operators.string.php
+    module String
+      ##
+      class Concatenation < Binary
+        ##
+        # Returns the PHP representation of this operator.
+        #
+        # @return [String]
+        def to_php
+          "#{lhs} . #{rhs}"
+        end
+      end
+    end
+
+    ##
     # @see http://www.php.net/manual/en/language.operators.logical.php
     module Logical
       ##
@@ -48,7 +63,7 @@ module PHP
       end
 
       ##
-      class And < Unary
+      class And < Binary
         ##
         # Returns the PHP representation of this operator.
         #
@@ -59,7 +74,7 @@ module PHP
       end
 
       ##
-      class Or < Unary
+      class Or < Binary
         ##
         # Returns the PHP representation of this operator.
         #
