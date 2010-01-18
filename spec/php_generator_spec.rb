@@ -191,12 +191,52 @@ describe PHP::Generator do
     end
   end
 
-  context "assignments operators" do
-    # TODO
+  context "assignment operators" do
+    it "should support assignments" do
+      php('x = 42').to_s.should == '$x = 42'
+      php{ x = 42 }.to_s.should == '$x = 42'
+      php('a = b').to_s.should == '$a = $b'
+      php{ a = b }.to_s.should == '$a = $b'
+    end
   end
 
   context "bitwise operators" do
-    # TODO
+    it "should support the bitwise and operator" do
+      php('1 & 0').to_s.should == '1 & 0'
+      php{ 1 & 0 }.to_s.should == '1 & 0'
+      php('a & b').to_s.should == '$a & $b'
+      php{ a & b }.to_s.should == '$a & $b'
+    end
+
+    it "should support the bitwise or operator" do
+      php('1 | 0').to_s.should == '1 | 0'
+      php{ 1 | 0 }.to_s.should == '1 | 0'
+      php('a | b').to_s.should == '$a | $b'
+      php{ a | b }.to_s.should == '$a | $b'
+    end
+
+    it "should support the bitwise xor operator" do
+      php('1 ^ 0').to_s.should == '1 ^ 0'
+      php{ 1 ^ 0 }.to_s.should == '1 ^ 0'
+      php('a ^ b').to_s.should == '$a ^ $b'
+      php{ a ^ b }.to_s.should == '$a ^ $b'
+    end
+
+    it "should support the bitwise not operator" do
+      php('~1').to_s.should == '~1'
+      php{ ~1 }.to_s.should == '~1'
+      php('~x').to_s.should == '~$x'
+      php{ ~x }.to_s.should == '~$x'
+    end
+
+    #it "should support the bitwise left shift operator" # TODO
+
+    it "should support the bitwise right shift operator" do
+      php('8 >> 2').to_s.should == '8 >> 2'
+      php{ 8 >> 2 }.to_s.should == '8 >> 2'
+      php('a >> b').to_s.should == '$a >> $b'
+      php{ a >> b }.to_s.should == '$a >> $b'
+    end
   end
 
   context "comparison operators" do

@@ -9,6 +9,11 @@ module PHP
         when :*    then Arithmetic::Multiplication
         when :'/'  then Arithmetic::Division
         when :'%'  then Arithmetic::Modulus
+        when :~    then Bitwise::Not
+        when :&    then Bitwise::And
+        when :|    then Bitwise::Or
+        when :^    then Bitwise::Xor
+        when :>>   then Bitwise::ShiftRight
         when :<<   then String:Concatenation
         when :'!'  then Logical::Not
         when :'&&' then Logical::And
@@ -115,7 +120,7 @@ module PHP
     end
 
     ##
-    # @see http://www.php.net/manual/en/language.operators.arithmetic.php
+    # @see http://php.net/manual/en/language.operators.arithmetic.php
     module Arithmetic
       OPERATORS = [:+, :-, :*, :'/', :'%']
 
@@ -157,7 +162,43 @@ module PHP
     end
 
     ##
-    # @see http://www.php.net/manual/en/language.operators.string.php
+    # @see http://php.net/manual/en/language.operators.bitwise.php
+    module Bitwise
+      OPERATORS = [:~, :&, :|, :^, :>>]
+
+      ##
+      class Not < Unary
+        def operator() :~ end
+      end
+
+      ##
+      class And < Binary
+        def operator() :& end
+      end
+
+      ##
+      class Or < Binary
+        def operator() :| end
+      end
+
+      ##
+      class Xor < Binary
+        def operator() :^ end
+      end
+
+      ##
+      class ShiftLeft < Binary
+        def operator() :<< end
+      end
+
+      ##
+      class ShiftRight < Binary
+        def operator() :>> end
+      end
+    end
+
+    ##
+    # @see http://php.net/manual/en/language.operators.string.php
     module String
       OPERATORS = [:'.']
 
@@ -168,7 +209,7 @@ module PHP
     end
 
     ##
-    # @see http://www.php.net/manual/en/language.operators.logical.php
+    # @see http://php.net/manual/en/language.operators.logical.php
     module Logical
       OPERATORS = [:'!', :'&&', :'||']
 
