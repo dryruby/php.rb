@@ -61,3 +61,24 @@ describe PHP::Literal do
     end
   end
 end
+
+describe PHP::Variable do
+  context "when created" do
+    it "should require a value argument" do
+      lambda { PHP::Variable.new }.should raise_error(ArgumentError)
+      lambda { PHP::Variable.new(:foo) }.should_not raise_error(ArgumentError)
+    end
+
+    it "should convert the name argument to a symbol" do
+      PHP::Variable.new('foo').name.should be_a_kind_of(Symbol)
+      PHP::Variable.new(123).name.should be_a_kind_of(Symbol)
+    end
+  end
+
+  context "when output" do
+    it "should correspond to the PHP representation" do
+      PHP::Variable.new(:count).to_php.should == '$count'
+      PHP::Variable.new(PHP::Variable.new(:function)).to_php.should == '$$function'
+    end
+  end
+end

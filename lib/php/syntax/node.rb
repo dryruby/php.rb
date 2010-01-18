@@ -10,6 +10,12 @@ module PHP
       raise NotImplementedError
     end
 
-    alias_method :to_s, :to_php
+    ##
+    # Returns the string representation of this AST node.
+    #
+    # @return [String]
+    def to_s
+      to_php
+    end
   end
 end
