@@ -29,6 +29,14 @@ module PHP
     end
 
     ##
+    # Compares this identifier to `other` for sorting purposes.
+    #
+    # @return [Integer] -1, 0, 1
+    def <=>(other)
+      to_s <=> other.to_s
+    end
+
+    ##
     # Returns the PHP representation of this identifier.
     #
     # @return [String]
