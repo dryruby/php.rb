@@ -138,3 +138,11 @@ describe PHP::Function do
     end
   end
 end
+
+describe PHP::Program do
+  context "when created" do
+    it "should accept list of statements" do
+      lambda { PHP::Program.new }.should_not raise_error(ArgumentError)
+    end
+  end
+end
