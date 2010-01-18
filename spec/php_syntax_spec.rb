@@ -63,8 +63,14 @@ describe PHP::Variable do
     end
   end
 
-  context "when output" do
-    it "should correspond to the PHP representation" do
+  context "global variables" do
+    it "should correspond to their PHP representation" do
+      PHP::Variable.new(:count, :global => true).to_php.should == "$GLOBALS['count']"
+    end
+  end
+
+  context "local variables" do
+    it "should correspond to their PHP representation" do
       PHP::Variable.new(:count).to_php.should == '$count'
       PHP::Variable.new(PHP::Variable.new(:function)).to_php.should == '$$function'
     end

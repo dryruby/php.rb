@@ -7,8 +7,10 @@ module PHP
     attr_accessor :name
 
     ##
-    # @param  [Symbol, #to_s] name
-    def initialize(name)
+    # @param  [Symbol, #to_s]          name
+    # @param  [Hash{Symbol => Object}] options
+    # @options options [Boolean] :global (false)
+    def initialize(name, options = {})
       @name = case name
         when Variable
           name.to_php
@@ -16,6 +18,23 @@ module PHP
           raise ArgumentError.new("invalid PHP variable name: #{name.inspect}") unless self.class.valid_name?(name)
           name.to_s.to_sym
       end
+      @options = options
+    end
+
+    ##
+    # Returns `true` if this is a global variable.
+    #
+    # @return [Boolean]
+    def global?
+      @options[:global] == true
+    end
+
+    ##
+    # Returns `true` if this is a local variable.
+    #
+    # @return [Boolean]
+    def local?
+      !global?
     end
 
     ##
@@ -23,7 +42,7 @@ module PHP
     #
     # @return [String]
     def to_php
-      "$#{name}"
+      global? ? "$GLOBALS['#{name}']" : "$#{name}"
     end
   end
 end
