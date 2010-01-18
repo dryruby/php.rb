@@ -20,3 +20,44 @@ describe PHP::Identifier do
     end
   end
 end
+
+describe PHP::Literal do
+  context "when created" do
+    it "should require a value argument" do
+      lambda { PHP::Literal.new }.should raise_error(ArgumentError)
+      lambda { PHP::Literal.new(123) }.should_not raise_error(ArgumentError)
+    end
+  end
+
+  context "null literals" do
+    it "should correspond to their PHP representation" do
+      PHP::Literal.new(nil).to_php.should == 'NULL'
+    end
+  end
+
+  context "boolean literals" do
+    it "should correspond to their PHP representation" do
+      PHP::Literal.new(true).to_php.should  == 'TRUE'
+      PHP::Literal.new(false).to_php.should == 'FALSE'
+    end
+  end
+
+  context "integer literals" do
+    it "should correspond to their PHP representation" do
+      PHP::Literal.new(123).to_php.should == '123'
+    end
+  end
+
+  context "float literals" do
+    it "should correspond to their PHP representation" do
+      PHP::Literal.new(3.1415).to_php.should == '3.1415'
+    end
+  end
+
+  context "string literals" do
+    it "should correspond to their PHP representation" do
+      PHP::Literal.new('Hello, world!').to_php.should == '"Hello, world!"'
+      PHP::Literal.new('""').to_php.should == '"\\"\\""'
+    end
+  end
+end
