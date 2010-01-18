@@ -12,6 +12,7 @@ module PHP
   autoload :Literal,    'php/syntax/literal'
   autoload :Namespace,  'php/syntax/namespace'
   autoload :Node,       'php/syntax/node'
+  autoload :Operator,   'php/syntax/operator'
   autoload :Program,    'php/syntax/program'
   autoload :Statement,  'php/syntax/statement'
   autoload :Variable,   'php/syntax/variable'
