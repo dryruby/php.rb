@@ -1,5 +1,6 @@
 module PHP
   ##
+  # @see http://php.net/manual/en/language.types.php
   class Literal < Expression
     attr_accessor :value
 

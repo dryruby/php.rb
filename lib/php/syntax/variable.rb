@@ -1,5 +1,6 @@
 module PHP
   ##
+  # @see http://php.net/manual/en/language.variables.basics.php
   class Variable < Expression
     SYNTAX = /^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/
 

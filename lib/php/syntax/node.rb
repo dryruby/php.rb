@@ -1,5 +1,6 @@
 module PHP
   ##
+  # @see http://en.wikipedia.org/wiki/Abstract_syntax_tree
   class Node
     ##
     # Returns the PHP representation of this AST node.

@@ -1,5 +1,6 @@
 module PHP
   ##
+  # @see http://php.net/manual/en/language.constants.php
   class Identifier < Expression
     attr_accessor :name
 
