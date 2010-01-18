@@ -66,5 +66,14 @@ module PHP
     def process_lit(exp)
       Literal.new(exp.shift)
     end
+
+    ##
+    # Processes `[:str, value]` expressions.
+    #
+    # @param  [Array<Object>] exp
+    # @return [Literal]
+    def process_str(exp)
+      Literal.new(exp.shift)
+    end
   end
 end

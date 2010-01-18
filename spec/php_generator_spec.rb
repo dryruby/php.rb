@@ -19,7 +19,11 @@ describe PHP::Generator do
       php('3.1415').to_s.should == '3.1415'
     end
 
-    it "should support string literals"
+    it "should support string literals" do
+      php("''").to_s.should == '""'
+      php('""').to_s.should == '""'
+      php("'Hello, world!'").to_s.should == '"Hello, world!"'
+    end
   end
 
   def php(input = nil, &block)
