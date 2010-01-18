@@ -12,4 +12,11 @@ describe PHP::Identifier do
       PHP::Identifier.new(123).name.should be_a_kind_of(Symbol)
     end
   end
+
+  context "when output" do
+    it "should correspond to the PHP representation" do
+      PHP::Identifier.new(:count).to_php.should    == 'count'
+      PHP::Identifier.new(:__FILE__).to_php.should == '__FILE__'
+    end
+  end
 end

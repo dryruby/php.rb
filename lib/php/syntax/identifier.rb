@@ -8,5 +8,13 @@ module PHP
     def initialize(name)
       @name = name.is_a?(Symbol) ? name : name.to_s.to_sym
     end
+
+    ##
+    # Returns the PHP representation of this identifier.
+    #
+    # @return [String]
+    def to_php
+      name.to_s
+    end
   end
 end
