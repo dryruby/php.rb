@@ -1,5 +1,11 @@
 require File.join(File.dirname(__FILE__), 'spec_helper')
 
+describe PHP::Node do
+  it "should not be instantiable" do
+    lambda { PHP::Node.new }.should raise_error(NoMethodError)
+  end
+end
+
 describe PHP::Identifier do
   context "when created" do
     it "should require an identifier name" do
