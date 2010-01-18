@@ -95,13 +95,37 @@ module PHP
     ##
     # Processes `[:vcall, symbol]` expressions.
     #
+    # @example
+    #   process{foo} == process([:vcall, :foo]) # ParseTree only
+    #
     # @param  [Array(Symbol)] exp
     # @return [Variable]
     def process_vcall(exp) # FIXME
       if exp.size == 1
+        # FIXME: for now, we're assuming this is a reference to a local variable:
         Variable.new(exp.shift)
       else
-        raise NotImplementedError
+        raise NotImplementedError # TODO
+      end
+    end
+
+    ##
+    # Processes `[:call, ...]` expressions.
+    #
+    # @example
+    #   process{foo}       == process([:call, nil, :foo, [:arglist]])
+    #   process{add(1, 2)} == process([:call, nil, :add, [:arglist, [:lit, 1], [:lit, 2]]])
+    #
+    # @param  [Array] exp
+    # @return [Node]
+    def process_call(exp) # FIXME
+      receiver, method, arglist = exp
+      arglist = process(arglist)
+      if receiver.nil? && arglist.to_a.empty?
+        # FIXME: for now, we're assuming this is a reference to a local variable:
+        Variable.new(method)
+      else
+        raise NotImplementedError # TODO
       end
     end
 
@@ -191,7 +215,21 @@ module PHP
     # @param  [Array] exp
     # @return [Node]
     def process_args(exp)
-      Node.new(*exp.map { |arg| Variable.new(arg) })
+      Node.new(*exp.map { |var| Variable.new(var) })
+    end
+
+    ##
+    # Processes `[:arglist, ...]` expressions.
+    #
+    # @example
+    #   process([:arglist])
+    #   process([:arglist, [:lit, 1]])
+    #   process([:arglist, [:lit, 1], [:lit, 2]])
+    #
+    # @param  [Array<Array>] exp
+    # @return [Node]
+    def process_arglist(exp)
+      Node.new(*exp.map { |val| process(val) })
     end
 
     ##
