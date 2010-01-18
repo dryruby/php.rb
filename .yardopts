@@ -1,0 +1,11 @@
+--title "PHP.rb: A Ruby-to-PHP Code Generator"
+--output-dir doc/yard
+--protected
+--no-private
+--hide-void-return
+--markup markdown
+--readme README.md
+-
+AUTHORS
+UNLICENSE
+VERSION
