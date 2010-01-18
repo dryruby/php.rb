@@ -119,7 +119,7 @@ module PHP
         # FIXME: for now, we're assuming this is a reference to a local variable:
         Variable.new(exp.shift)
       else
-        raise NotImplementedError # TODO
+        raise NotImplementedError.new(exp.inspect) # TODO
       end
     end
 
@@ -134,8 +134,8 @@ module PHP
     # @return [Node]
     def process_call(exp) # FIXME
       receiver, method, arglist = exp
-      arglist = process(arglist)
       if receiver.nil?
+        arglist = process(arglist)
         if arglist.to_a.empty?
           # FIXME: for now, we're assuming this is a reference to a local variable:
           Variable.new(method)
@@ -143,7 +143,11 @@ module PHP
           Function::Call.new(method, *arglist)
         end
       else
-        raise NotImplementedError # TODO: Method::Call.new(receiver, method, *arglist)
+        if op = Operator.for(method)
+          op.new(process(receiver), *process(arglist))
+        else
+          raise NotImplementedError.new(exp.inspect) # TODO: Method::Call.new(receiver, method, *arglist)
+        end
       end
     end
 
@@ -344,6 +348,42 @@ module PHP
         else
           Statement::If.new(process(condition), process(true_branch), process(else_branch))
       end
+    end
+
+    ##
+    # Processes `[:not, operand]` expressions.
+    #
+    # @example
+    #   process([:not, [:true]])
+    #
+    # @param  [Array(Array)] exp
+    # @return [Operator::Logical::Not]
+    def process_not(exp)
+      Operator::Logical::Not.new(process(exp.shift))
+    end
+
+    ##
+    # Processes `[:and, lhs, rhs]` expressions.
+    #
+    # @example
+    #   process([:and, [:true], [:false]])
+    #
+    # @param  [Array(Array, Array)] exp
+    # @return [Operator::Logical::And]
+    def process_and(exp)
+      Operator::Logical::And.new(process(exp.shift), process(exp.shift))
+    end
+
+    ##
+    # Processes `[:or, lhs, rhs]` expressions.
+    #
+    # @example
+    #   process([:or, [:true], [:false]])
+    #
+    # @param  [Array(Array, Array)] exp
+    # @return [Operator::Logical::Or]
+    def process_or(exp)
+      Operator::Logical::Or.new(process(exp.shift), process(exp.shift))
     end
   end
 end
