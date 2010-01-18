@@ -37,14 +37,30 @@ module PHP
     alias_method :unnamed?, :anonymous?
 
     ##
+    # Returns the arity of this function.
+    #
+    # @return [Integer]
+    def arity
+      parameters.size
+    end
+
+    ##
+    # Returns the parameters, if any, of this function.
+    #
+    # @return [Array<Symbol>]
+    def parameters
+      @options[:parameters] || []
+    end
+
+    ##
     # Returns the PHP representation of this function.
     #
     # @return [String]
     def to_php
       if anonymous?
-        "function() {}" # TODO
+        "function(#{parameters.join(', ')}) {}" # TODO
       else
-        "function #{name}() {}" # TODO
+        "function #{name}(#{parameters.join(', ')}) {}" # TODO
       end
     end
   end
