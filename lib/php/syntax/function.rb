@@ -19,11 +19,33 @@ module PHP
     end
 
     ##
+    # Returns `true` if this is a named function.
+    #
+    # @return [Boolean]
+    def named?
+      !anonymous?
+    end
+
+    ##
+    # Returns `true` if this is an anonymous function.
+    #
+    # @return [Boolean]
+    def anonymous?
+      @name.nil?
+    end
+
+    alias_method :unnamed?, :anonymous?
+
+    ##
     # Returns the PHP representation of this function.
     #
     # @return [String]
     def to_php
-      "function #{name}() {}" # TODO
+      if anonymous?
+        "function() {}" # TODO
+      else
+        "function #{name}() {}" # TODO
+      end
     end
   end
 end
