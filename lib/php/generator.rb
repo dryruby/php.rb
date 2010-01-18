@@ -121,11 +121,15 @@ module PHP
     def process_call(exp) # FIXME
       receiver, method, arglist = exp
       arglist = process(arglist)
-      if receiver.nil? && arglist.to_a.empty?
-        # FIXME: for now, we're assuming this is a reference to a local variable:
-        Variable.new(method)
+      if receiver.nil?
+        if arglist.to_a.empty?
+          # FIXME: for now, we're assuming this is a reference to a local variable:
+          Variable.new(method)
+        else
+          Function::Call.new(method, *arglist)
+        end
       else
-        raise NotImplementedError # TODO
+        raise NotImplementedError # TODO: Method::Call.new(receiver, method, *arglist)
       end
     end
 

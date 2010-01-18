@@ -63,5 +63,33 @@ module PHP
         "function #{name}(#{parameters.join(', ')}) {}" # TODO
       end
     end
+
+    ##
+    # @see http://php.net/manual/en/language.functions.php
+    class Call < Expression
+      ##
+      # @return [Symbol]
+      attr_accessor :function
+
+      ##
+      # @return [Array<Expression>]
+      attr_accessor :arguments
+
+      ##
+      # @param  [Symbol, #to_s]     function
+      # @param  [Array<Expression>] arguments
+      def initialize(function, *arguments)
+        @function  = Identifier.new(function).to_sym
+        @arguments = arguments
+      end
+
+      ##
+      # Returns the PHP representation of this function call.
+      #
+      # @return [String]
+      def to_php
+        "#{function}(#{arguments.join(', ')})"
+      end
+    end
   end
 end

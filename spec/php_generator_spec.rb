@@ -60,17 +60,17 @@ describe PHP::Generator do
   end
 
   context "anonymous functions" do
-    it "should support functions of zero arguments" do
+    it "should support functions of zero parameters" do
       php('lambda {}').to_s.should == 'function() {}'
       php{ lambda {} }.to_s.should == 'function() {}'
     end
 
-    it "should support functions of one argument" do
+    it "should support functions of one parameter" do
       php('lambda { |x| }').to_s.should == 'function($x) {}'
       php{ lambda { |x| } }.to_s.should == 'function($x) {}'
     end
 
-    it "should support functions of many arguments" do
+    it "should support functions of many parameters" do
       php('lambda { |x, y| }').to_s.should == 'function($x, $y) {}'
       php{ lambda { |x, y| } }.to_s.should == 'function($x, $y) {}'
     end
@@ -79,24 +79,40 @@ describe PHP::Generator do
   end
 
   context "named functions" do
-    it "should support functions of zero arguments" do
+    it "should support functions of zero parameters" do
       php('def foo; end').to_s.should == 'function foo() {}'
       php{ def foo; end }.to_s.should == 'function foo() {}'
       php('def foo(); end').to_s.should == 'function foo() {}'
       php{ def foo(); end }.to_s.should == 'function foo() {}'
     end
 
-    it "should support functions of one argument" do
+    it "should support functions of one parameter" do
       php('def foo(x); end').to_s.should == 'function foo($x) {}'
       php{ def foo(x); end }.to_s.should == 'function foo($x) {}'
     end
 
-    it "should support functions of many arguments" do
+    it "should support functions of many parameters" do
       php('def foo(x, y); end').to_s.should == 'function foo($x, $y) {}'
       php{ def foo(x, y); end }.to_s.should == 'function foo($x, $y) {}'
     end
 
     it "should support functions of variable arity"
+  end
+
+  context "function calls" do
+    it "should support function calls with zero arguments"
+
+    it "should support function calls with one argument" do
+      php('inc(1)').to_s.should == 'inc(1)'
+      php{ inc(1) }.to_s.should == 'inc(1)'
+    end
+
+    it "should support function calls with many arguments" do
+      php('add(1, 2)').to_s.should == 'add(1, 2)'
+      php{ add(1, 2) }.to_s.should == 'add(1, 2)'
+    end
+
+    it "should support function calls with splat arguments"
   end
 
   context "interfaces" do
@@ -116,6 +132,14 @@ describe PHP::Generator do
       php('class Foo < Bar; end').to_s.should == 'class Foo extends Bar {}'
       php{ class Foo < Bar; end }.to_s.should == 'class Foo extends Bar {}'
     end
+  end
+
+  context "static method calls" do
+    it "should support static method calls"
+  end
+
+  context "instance method calls" do
+    it "should support instance method calls"
   end
 
   def php(input = nil, &block)
