@@ -34,6 +34,22 @@ describe PHP::Generator do
     end
   end
 
+  context "identifiers" do
+    it "should support identifiers" do
+      php(':foo').to_s.should == 'foo'
+      php{ :foo }.to_s.should == 'foo'
+    end
+  end
+
+  context "variables" do
+    it "should support variables" do
+      php('foo').to_s.should == '$foo'
+      #php{ foo }.to_s.should == '$foo' # FIXME
+    end
+
+    it "should support variable assignments"
+  end
+
   def php(input = nil, &block)
     if block_given?
       PHP::Generator.process(&block)

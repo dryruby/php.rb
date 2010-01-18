@@ -77,5 +77,18 @@ module PHP
     def process_str(exp)
       Literal.new(exp.shift)
     end
+
+    ##
+    # Processes `[:vcall, symbol]` expressions.
+    #
+    # @param  [Array<Object>] exp
+    # @return [Variable]
+    def process_vcall(exp) # FIXME
+      if exp.size == 1
+        Variable.new(exp.shift)
+      else
+        raise NotImplementedError
+      end
+    end
   end
 end
