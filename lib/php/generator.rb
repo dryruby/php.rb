@@ -257,5 +257,29 @@ module PHP
     def process_block(exp)
       process(exp.last)
     end
+
+    ##
+    # Processes `[:class, symbol, ...]` expressions.
+    #
+    # @example
+    #   process{class Foo; end} == process([:class, :Foo, nil, [:scope]])
+    #
+    # @param  [Array] exp
+    # @return [Class]
+    def process_class(exp)
+      Class.new(exp.shift, :extends => exp.first ? process(exp.first) : nil) # TODO
+    end
+
+    ##
+    # Processes `[:const, symbol]` expressions.
+    #
+    # @example
+    #   process([:const, :Foo])
+    #
+    # @param  [Array(Symbol)] exp
+    # @return [Identifier]
+    def process_const(exp)
+      Identifier.new(exp.shift)
+    end
   end
 end

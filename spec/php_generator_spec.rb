@@ -99,6 +99,18 @@ describe PHP::Generator do
     it "should support functions of variable arity"
   end
 
+  context "classes" do
+    it "should support simple classes without a parent class" do
+      php('class Foo; end').to_s.should == 'class Foo {}'
+      php{ class Foo; end }.to_s.should == 'class Foo {}'
+    end
+
+    it "should support simple classes with a parent class" do
+      php('class Foo < Bar; end').to_s.should == 'class Foo extends Bar {}'
+      php{ class Foo < Bar; end }.to_s.should == 'class Foo extends Bar {}'
+    end
+  end
+
   def php(input = nil, &block)
     if block_given?
       PHP::Generator.process(&block)
