@@ -114,3 +114,12 @@ describe PHP::Class do
     end
   end
 end
+
+describe PHP::Function do
+  context "when created" do
+    it "should accept a function name" do
+      lambda { PHP::Function.new }.should_not raise_error(ArgumentError)
+      lambda { PHP::Function.new(:foo) }.should_not raise_error(ArgumentError)
+    end
+  end
+end
