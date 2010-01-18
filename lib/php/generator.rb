@@ -259,12 +259,24 @@ module PHP
     end
 
     ##
-    # Processes `[:class, symbol, ...]` expressions.
+    # Processes `[:module, symbol, [:scope, ...]]` expressions.
+    #
+    # @example
+    #   process{module Foo; end} == process([:module, :Foo, [:scope]])
+    #
+    # @param  [Array(Symbol, Array)] exp
+    # @return [Class]
+    def process_module(exp)
+      Interface.new(exp.shift) # TODO
+    end
+
+    ##
+    # Processes `[:class, symbol, parent, [:scope, ...]]` expressions.
     #
     # @example
     #   process{class Foo; end} == process([:class, :Foo, nil, [:scope]])
     #
-    # @param  [Array] exp
+    # @param  [Array(Symbol, Object, Array)] exp
     # @return [Class]
     def process_class(exp)
       Class.new(exp.shift, :extends => exp.first ? process(exp.first) : nil) # TODO
