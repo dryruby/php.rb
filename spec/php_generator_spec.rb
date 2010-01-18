@@ -41,14 +41,16 @@ describe PHP::Generator do
     end
   end
 
-  context "variables" do
+  context "global variables" do
     it "should support global variables" do
       php('$foo').to_s.should == "$GLOBALS['foo']"
       php{ $foo }.to_s.should == "$GLOBALS['foo']"
     end
 
     it "should support global variable assignments"
+  end
 
+  context "local variables" do
     it "should support local variables" do
       php('foo').to_s.should == '$foo'
       #php{ foo }.to_s.should == '$foo' # FIXME
@@ -57,29 +59,44 @@ describe PHP::Generator do
     it "should support local variable assignments"
   end
 
-  context "functions" do
-    it "should support anonymous functions of zero arguments" do
+  context "anonymous functions" do
+    it "should support functions of zero arguments" do
       php('lambda {}').to_s.should == 'function() {}'
       php{ lambda {} }.to_s.should == 'function() {}'
     end
 
-    it "should support anonymous functions of one argument" do
+    it "should support functions of one argument" do
       php('lambda { |x| }').to_s.should == 'function($x) {}'
       php{ lambda { |x| } }.to_s.should == 'function($x) {}'
     end
 
-    it "should support anonymous functions of many arguments" do
+    it "should support functions of many arguments" do
       php('lambda { |x, y| }').to_s.should == 'function($x, $y) {}'
       php{ lambda { |x, y| } }.to_s.should == 'function($x, $y) {}'
     end
 
-    it "should support named functions of zero arguments" do
+    it "should support functions of variable arity"
+  end
+
+  context "named functions" do
+    it "should support functions of zero arguments" do
       php('def foo; end').to_s.should == 'function foo() {}'
       php{ def foo; end }.to_s.should == 'function foo() {}'
+      php('def foo(); end').to_s.should == 'function foo() {}'
+      php{ def foo(); end }.to_s.should == 'function foo() {}'
     end
 
-    it "should support named functions of one argument"
-    it "should support named functions of many arguments"
+    it "should support functions of one argument" do
+      php('def foo(x); end').to_s.should == 'function foo($x) {}'
+      php{ def foo(x); end }.to_s.should == 'function foo($x) {}'
+    end
+
+    it "should support functions of many arguments" do
+      php('def foo(x, y); end').to_s.should == 'function foo($x, $y) {}'
+      php{ def foo(x, y); end }.to_s.should == 'function foo($x, $y) {}'
+    end
+
+    it "should support functions of variable arity"
   end
 
   def php(input = nil, &block)

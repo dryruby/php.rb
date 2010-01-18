@@ -1,6 +1,7 @@
 require 'sexp_processor'
 require 'parse_tree'
 require 'parse_tree_extensions'
+require 'ruby_parser'
 
 module PHP
   ##
@@ -19,7 +20,8 @@ module PHP
         # `s(:iter, s(:call, nil, :proc, s(:arglist)), nil, s(...))`
         input = block.to_sexp.last.to_a
       else
-        input = ParseTree.translate(input)
+        #input = ParseTree.translate(input)
+        input = RubyParser.new.process(input).to_a
       end
       self.new.process(input)
     end
@@ -147,7 +149,7 @@ module PHP
     # Processes `[:masgn, ...]` expressions.
     #
     # @example
-    #   process([:masgn, [:array, [:dasgn_curr, :x], [:dasgn_curr, :y]], nil, nil])
+    #   process([:masgn, [:array, [:dasgn_curr, :x], [:dasgn_curr, :y]], nil, nil]) # ParseTree only
     #   process([:masgn, [:array, [:lasgn, :x], [:lasgn, :y]]])
     #
     # @param  [Array(Symbol)] exp
@@ -161,13 +163,61 @@ module PHP
     ##
     # Processes `[:defn, symbol, ...]` expressions.
     #
-    # @example
-    #   process([:defn, :foo, [:scope, [:block, [:args], [:nil]]]])
+    # @example Zero-arity functions
+    #   process([:defn, :foo, [:scope, [:block, [:args], [:nil]]]]) # ParseTree only
+    #   process([:defn, :foo, [:args], [:scope, [:block, [:nil]]]])
+    #
+    # @example One-arity functions
+    #   process([:defn, :foo, [:scope, [:block, [:args, :x], [:nil]]]]) # ParseTree only
+    #   process([:defn, :foo, [:args, :x], [:scope, [:block, [:nil]]]])
     #
     # @param  [Array(Symbol, Array)] exp
     # @return [Function]
     def process_defn(exp)
-      Function.new(exp.shift) # TODO
+      name = exp.shift
+      args = (exp.size == 2 ? process(exp.shift) : []).to_a # ParseTree workaround
+      body = process(exp.shift)
+      Function.new(name, :parameters => args) # TODO
+    end
+
+    ##
+    # Processes `[:args, ...]` expressions.
+    #
+    # @example
+    #   process([:args])
+    #   process([:args, :x])
+    #   process([:args, :x, :y])
+    #
+    # @param  [Array] exp
+    # @return [Node]
+    def process_args(exp)
+      Node.new(*exp.map { |arg| Variable.new(arg) })
+    end
+
+    ##
+    # Processes `[:scope, [...]]` expressions.
+    #
+    # @example
+    #   process([:scope, [:block, [:args], [:nil]]]) # ParseTree only
+    #   process([:scope, [:block, [:nil]]])
+    #
+    # @param  [Array(Array)] exp
+    # @return [Node]
+    def process_scope(exp)
+      process(exp.first)
+    end
+
+    ##
+    # Processes `[:block, ...]` expressions.
+    #
+    # @example
+    #   process([:block, [:args], [:nil]]) # ParseTree only
+    #   process([:block, [:nil]])
+    #
+    # @param  [Array<Array>] exp
+    # @return [Node]
+    def process_block(exp)
+      process(exp.last)
     end
   end
 end
