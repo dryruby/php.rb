@@ -11,6 +11,14 @@ module PHP
     end
 
     ##
+    # Compares this literal to `other` for sorting purposes.
+    #
+    # @return [Integer] -1, 0, 1
+    def <=>(other)
+      value <=> other.value
+    end
+
+    ##
     # Returns the PHP representation of this literal.
     #
     # @return [String]
