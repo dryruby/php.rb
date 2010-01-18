@@ -106,6 +106,15 @@ describe PHP::Literal do
   end
 end
 
+describe PHP::Interface do
+  context "when created" do
+    it "should require an interface name" do
+      lambda { PHP::Interface.new }.should raise_error(ArgumentError)
+      lambda { PHP::Interface.new(:foo) }.should_not raise_error(ArgumentError)
+    end
+  end
+end
+
 describe PHP::Class do
   context "when created" do
     it "should require a class name" do

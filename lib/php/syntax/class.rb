@@ -1,7 +1,7 @@
 module PHP
   ##
   # @see http://php.net/manual/en/language.oop5.php
-  class Class < Statement
+  class Class < Interface
     ##
     # @return [Symbol]
     attr_accessor :name
