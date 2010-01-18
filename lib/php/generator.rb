@@ -113,7 +113,9 @@ module PHP
       if args.nil?
         Function.new(nil)
       else
-        Function.new(nil, :parameters => [process(args)].flatten)
+        args = process(args)
+        args = args.is_a?(Variable) ? [args] : args.to_a
+        Function.new(nil, :parameters => args)
       end
     end
 
@@ -139,6 +141,21 @@ module PHP
     # @return [Variable]
     def process_dasgn_curr(exp)
       Variable.new(exp.shift)
+    end
+
+    ##
+    # Processes `[:masgn, ...]` expressions.
+    #
+    # @example
+    #   process([:masgn, [:array, [:dasgn_curr, :x], [:dasgn_curr, :y]], nil, nil])
+    #   process([:masgn, [:array, [:lasgn, :x], [:lasgn, :y]]])
+    #
+    # @param  [Array(Symbol)] exp
+    # @return [Variable]
+    def process_masgn(exp)
+      exp = exp.first
+      exp.shift # removes the initial :array element
+      Node.new(*exp.map { |asgn| process(asgn) }) # FIXME
     end
   end
 end
