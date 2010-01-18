@@ -151,11 +151,23 @@ module PHP
     #   process([:masgn, [:array, [:lasgn, :x], [:lasgn, :y]]])
     #
     # @param  [Array(Symbol)] exp
-    # @return [Variable]
+    # @return [Node]
     def process_masgn(exp)
       exp = exp.first
       exp.shift # removes the initial :array element
       Node.new(*exp.map { |asgn| process(asgn) }) # FIXME
+    end
+
+    ##
+    # Processes `[:defn, symbol, ...]` expressions.
+    #
+    # @example
+    #   process([:defn, :foo, [:scope, [:block, [:args], [:nil]]]])
+    #
+    # @param  [Array(Symbol, Array)] exp
+    # @return [Function]
+    def process_defn(exp)
+      Function.new(exp.shift) # TODO
     end
   end
 end
