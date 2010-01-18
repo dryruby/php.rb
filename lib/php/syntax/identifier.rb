@@ -35,5 +35,13 @@ module PHP
     def to_php
       name.to_s
     end
+
+    ##
+    # Returns the symbolic representation of this identifier.
+    #
+    # @return [Symbol]
+    def to_sym
+      name
+    end
   end
 end
