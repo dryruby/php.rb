@@ -32,5 +32,42 @@ module PHP
         @lhs, @rhs = lhs, rhs
       end
     end
+
+    ##
+    # @see http://www.php.net/manual/en/language.operators.logical.php
+    module Logical
+      ##
+      class Not < Unary
+        ##
+        # Returns the PHP representation of this operator.
+        #
+        # @return [String]
+        def to_php
+          "!#{operand}"
+        end
+      end
+
+      ##
+      class And < Unary
+        ##
+        # Returns the PHP representation of this operator.
+        #
+        # @return [String]
+        def to_php
+          "#{lhs} && #{rhs}"
+        end
+      end
+
+      ##
+      class Or < Unary
+        ##
+        # Returns the PHP representation of this operator.
+        #
+        # @return [String]
+        def to_php
+          "#{lhs} || #{rhs}"
+        end
+      end
+    end
   end
 end
