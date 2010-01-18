@@ -15,7 +15,9 @@ module PHP
     # @return [Node]
     def self.process(input = nil, &block)
       if block_given?
-        input = block.to_sexp
+        # The return value from #to_sexp will be in the format:
+        # `s(:iter, s(:call, nil, :proc, s(:arglist)), nil, s(...))`
+        input = block.to_sexp.last.to_a
       else
         input = ParseTree.translate(input)
       end
