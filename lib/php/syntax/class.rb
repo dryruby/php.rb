@@ -7,6 +7,10 @@ module PHP
     attr_accessor :name
 
     ##
+    # @return [Array<Node>]
+    attr_accessor :methods
+
+    ##
     # @param  [Symbol, #to_s]         name
     # @param  [Hash{Symbol => Object} options
     def initialize(name, options = {})
@@ -14,11 +18,34 @@ module PHP
     end
 
     ##
+    # Returns `true` if this class has a defined superclass.
+    #
+    # @return [Boolean]
+    def extends?
+      !@options[:extends].nil?
+    end
+
+    ##
+    # Returns the name of the superclass, if any, for this class.
+    #
+    # @return [Symbol]
+    def extends
+      @options[:extends] rescue nil
+    end
+
+    alias_method :superclass, :extends
+    alias_method :parent,     :extends
+
+    ##
     # Returns the PHP representation of this class.
     #
     # @return [String]
     def to_php
-      "class #{name} {}" # TODO
+      if extends?
+        "class #{name} extends #{extends} {}" # TODO
+      else
+        "class #{name} {}" # TODO
+      end
     end
   end
 end
