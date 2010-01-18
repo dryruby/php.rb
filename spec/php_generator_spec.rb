@@ -42,12 +42,19 @@ describe PHP::Generator do
   end
 
   context "variables" do
-    it "should support variables" do
+    it "should support global variables" do
+      php('$foo').to_s.should == "$GLOBALS['foo']"
+      php{ $foo }.to_s.should == "$GLOBALS['foo']"
+    end
+
+    it "should support global variable assignments"
+
+    it "should support local variables" do
       php('foo').to_s.should == '$foo'
       #php{ foo }.to_s.should == '$foo' # FIXME
     end
 
-    it "should support variable assignments"
+    it "should support local variable assignments"
   end
 
   def php(input = nil, &block)

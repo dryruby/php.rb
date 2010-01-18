@@ -79,6 +79,18 @@ module PHP
     end
 
     ##
+    # Processes `[:gvar, symbol]` expressions.
+    #
+    # @example
+    #   process{$foo} == process([:gvar, :$foo])
+    #
+    # @param  [Array(Symbol)] exp
+    # @return [Variable]
+    def process_gvar(exp)
+      Variable.new(exp.shift.to_s[1..-1], :global => true) # NOTE: removes the leading '$' character
+    end
+
+    ##
     # Processes `[:vcall, symbol]` expressions.
     #
     # @param  [Array<Object>] exp
