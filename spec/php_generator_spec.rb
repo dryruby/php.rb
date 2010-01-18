@@ -59,7 +59,10 @@ describe PHP::Generator do
       #php{ foo }.to_s.should == '$foo' # FIXME
     end
 
-    it "should support local variable assignments"
+    it "should support local variable assignments" do
+      php('foo = 123').to_s.should == "$foo = 123"
+      php{ foo = 123 }.to_s.should == "$foo = 123"
+    end
   end
 
   context "anonymous functions" do
@@ -78,7 +81,7 @@ describe PHP::Generator do
       php{ lambda { |x, y| } }.to_s.should == 'function($x, $y) {}'
     end
 
-    it "should support functions of variable arity"
+    it "should support functions of variable arity" # TODO
   end
 
   context "named functions" do
@@ -99,11 +102,11 @@ describe PHP::Generator do
       php{ def foo(x, y); end }.to_s.should == 'function foo($x, $y) {}'
     end
 
-    it "should support functions of variable arity"
+    it "should support functions of variable arity" # TODO
   end
 
   context "function calls" do
-    it "should support function calls with zero arguments"
+    it "should support function calls with zero arguments" # TODO
 
     it "should support function calls with one argument" do
       php('inc(1)').to_s.should == 'inc(1)'
@@ -115,7 +118,7 @@ describe PHP::Generator do
       php{ add(1, 2) }.to_s.should == 'add(1, 2)'
     end
 
-    it "should support function calls with splat arguments"
+    it "should support function calls with splat arguments" # TODO
   end
 
   context "interfaces" do
@@ -138,11 +141,11 @@ describe PHP::Generator do
   end
 
   context "static method calls" do
-    it "should support static method calls"
+    it "should support static method calls" # TODO
   end
 
   context "instance method calls" do
-    it "should support instance method calls"
+    it "should support instance method calls" # TODO
   end
 
   context "control structures" do
@@ -167,7 +170,7 @@ describe PHP::Generator do
       php{ if true then 1 else 0 end }.to_s.should == 'if (TRUE) { 1 } else { 0 }'
     end
 
-    it "should support if/elseif statements"
+    it "should support if/elseif statements" # TODO
 
     it "should support unless statements" do
       php('unless true  then 0 end').to_s.should == 'if (!TRUE) { 0 }'
@@ -181,13 +184,13 @@ describe PHP::Generator do
       php{ unless false then 1 else 0 end }.to_s.should == 'if (FALSE) { 0 } else { 1 }'
     end
 
-    it "should support while statements"
-    it "should support do-while statements"
-    it "should support for statements"
-    it "should support foreach statements"
-    it "should support break statements"
-    it "should support continue statements"
-    it "should support switch statements"
+    it "should support while statements"    # TODO
+    it "should support do-while statements" # TODO
+    it "should support for statements"      # TODO
+    it "should support foreach statements"  # TODO
+    it "should support break statements"    # TODO
+    it "should support continue statements" # TODO
+    it "should support switch statements"   # TODO
   end
 
   def php(input = nil, &block)

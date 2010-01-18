@@ -164,15 +164,17 @@ module PHP
     end
 
     ##
-    # Processes `[:lasgn, symbol]` expressions.
+    # Processes `[:lasgn, symbol, value]` expressions.
     #
     # @example
     #   process([:lasgn, :x])
+    #   process([:lasgn, :x, [:lit, 123]])
     #
-    # @param  [Array(Symbol)] exp
-    # @return [Variable]
+    # @param  [Array(Symbol), Array(Symbol, Array)] exp
+    # @return [Variable, Operator::Assignment]
     def process_lasgn(exp)
-      Variable.new(exp.shift)
+      var, val = Variable.new(exp.shift), process(exp.shift)
+      val ? Operator::Assignment.new(var, val) : var
     end
 
     ##
