@@ -93,6 +93,20 @@ module PHP
     end
 
     ##
+    # Processes `[:gasgn, symbol, value]` expressions.
+    #
+    # @example
+    #   process{$foo = 123} == process([:gasgn, :$foo, [:lit, 123]])
+    #
+    # @param  [Array(Symbol, Array)] exp
+    # @return [Operator::Assignment]
+    def process_gasgn(exp)
+      var = Variable.new(exp.shift.to_s[1..-1], :global => true) # NOTE: removes the leading '$' character
+      val = process(exp.shift)
+      Operator::Assignment.new(var, val)
+    end
+
+    ##
     # Processes `[:vcall, symbol]` expressions.
     #
     # @example

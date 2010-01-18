@@ -47,7 +47,10 @@ describe PHP::Generator do
       php{ $foo }.to_s.should == "$GLOBALS['foo']"
     end
 
-    it "should support global variable assignments"
+    it "should support global variable assignments" do
+      php('$foo = 123').to_s.should == "$GLOBALS['foo'] = 123"
+      php{ $foo = 123 }.to_s.should == "$GLOBALS['foo'] = 123"
+    end
   end
 
   context "local variables" do

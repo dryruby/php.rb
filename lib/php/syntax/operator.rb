@@ -135,6 +135,12 @@ module PHP
     end
 
     ##
+    # @see http://php.net/manual/en/language.operators.assignment.php
+    class Assignment < Binary
+      def operator() :'=' end
+    end
+
+    ##
     # @see http://www.php.net/manual/en/language.operators.string.php
     module String
       ##
