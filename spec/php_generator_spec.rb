@@ -166,8 +166,17 @@ describe PHP::Generator do
 
     it "should support if/elseif statements"
 
-    it "should support unless statements"
-    it "should support unless/else statements"
+    it "should support unless statements" do
+      php('unless true  then 0 end').to_s.should == 'if (!TRUE) { 0 }'
+      php{ unless true  then 0 end }.to_s.should == 'if (!TRUE) { 0 }'
+      php('unless false then 1 end').to_s.should == 'if (!FALSE) { 1 }'
+      php{ unless false then 1 end }.to_s.should == 'if (!FALSE) { 1 }'
+    end
+
+    it "should support unless/else statements" do # FIXME
+      php('unless false then 1 else 0 end').to_s.should == 'if (FALSE) { 0 } else { 1 }'
+      php{ unless false then 1 else 0 end }.to_s.should == 'if (FALSE) { 0 } else { 1 }'
+    end
 
     it "should support while statements"
     it "should support do-while statements"

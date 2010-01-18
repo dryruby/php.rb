@@ -319,7 +319,15 @@ module PHP
     # @param  [Array(Array, Array, Array)] exp
     # @return [Statement::If]
     def process_if(exp)
-      Statement::If.new(process(exp.shift), process(exp.shift), process(exp.shift))
+      condition, true_branch, else_branch = exp
+      case
+        when true_branch.nil?
+          Statement::If.new(Operator::Logical::Not.new(process(condition)), process(else_branch))
+        when else_branch.nil?
+          Statement::If.new(process(condition), process(true_branch))
+        else
+          Statement::If.new(process(condition), process(true_branch), process(else_branch))
+      end
     end
   end
 end
