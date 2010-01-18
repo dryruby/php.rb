@@ -36,7 +36,7 @@ module PHP
     ##
     # Processes `[:nil]` expressions.
     #
-    # @param  [Array<Object>] exp
+    # @param  [Array()] exp
     # @return [Literal]
     def process_nil(exp)
       Literal.new(nil)
@@ -45,7 +45,7 @@ module PHP
     ##
     # Processes `[:false]` expressions.
     #
-    # @param  [Array<Object>] exp
+    # @param  [Array()] exp
     # @return [Literal]
     def process_false(exp)
       Literal.new(false)
@@ -54,7 +54,7 @@ module PHP
     ##
     # Processes `[:true]` expressions.
     #
-    # @param  [Array<Object>] exp
+    # @param  [Array()] exp
     # @return [Literal]
     def process_true(exp)
       Literal.new(true)
@@ -63,7 +63,7 @@ module PHP
     ##
     # Processes `[:lit, value]` expressions.
     #
-    # @param  [Array<Object>] exp
+    # @param  [Array(Object)] exp
     # @return [Literal]
     def process_lit(exp)
       Literal.new(exp.shift)
@@ -72,7 +72,7 @@ module PHP
     ##
     # Processes `[:str, value]` expressions.
     #
-    # @param  [Array<Object>] exp
+    # @param  [Array(String)] exp
     # @return [Literal]
     def process_str(exp)
       Literal.new(exp.shift)
@@ -93,7 +93,7 @@ module PHP
     ##
     # Processes `[:vcall, symbol]` expressions.
     #
-    # @param  [Array<Object>] exp
+    # @param  [Array(Symbol)] exp
     # @return [Variable]
     def process_vcall(exp) # FIXME
       if exp.size == 1
@@ -102,5 +102,15 @@ module PHP
         raise NotImplementedError
       end
     end
+
+    ##
+    # Processes `[:iter, ...]` expressions.
+    #
+    # @param  [Array<Object>] exp
+    # @return [Variable]
+    def process_iter(exp)
+      Function.new(nil)
+    end
+
   end
 end

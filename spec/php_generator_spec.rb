@@ -57,6 +57,19 @@ describe PHP::Generator do
     it "should support local variable assignments"
   end
 
+  context "functions" do
+    it "should support anonymous functions of zero arguments" do
+      php('lambda {}').to_s.should == 'function() {}'
+      php{ lambda {} }.to_s.should == 'function() {}'
+    end
+
+    it "should support anonymous functions of one argument"
+    it "should support anonymous functions of many arguments"
+    it "should support named functions of zero arguments"
+    it "should support named functions of one argument"
+    it "should support named functions of many arguments"
+  end
+
   def php(input = nil, &block)
     if block_given?
       PHP::Generator.process(&block)
