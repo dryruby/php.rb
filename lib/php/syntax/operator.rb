@@ -2,6 +2,20 @@ module PHP
   ##
   # @see http://php.net/manual/en/language.operators.php
   class Operator < Expression
+    def self.for(operator)
+      case operator
+        when :+    then Arithmetic::Addition
+        when :-    then Arithmetic::Subtraction
+        when :*    then Arithmetic::Multiplication
+        when :'/'  then Arithmetic::Division
+        when :'%'  then Arithmetic::Modulus
+        when :<<   then String:Concatenation
+        when :'!'  then Logical::Not
+        when :'&&' then Logical::And
+        when :'||' then Logical::Or
+      end
+    end
+
     ##
     # Returns the operator for this operation.
     #
@@ -103,6 +117,8 @@ module PHP
     ##
     # @see http://www.php.net/manual/en/language.operators.arithmetic.php
     module Arithmetic
+      OPERATORS = [:+, :-, :*, :'/', :'%']
+
       ##
       class Negation < Unary
         def operator() :'-' end
@@ -143,6 +159,8 @@ module PHP
     ##
     # @see http://www.php.net/manual/en/language.operators.string.php
     module String
+      OPERATORS = [:'.']
+
       ##
       class Concatenation < Binary
         def operator() :'.' end
@@ -152,6 +170,8 @@ module PHP
     ##
     # @see http://www.php.net/manual/en/language.operators.logical.php
     module Logical
+      OPERATORS = [:'!', :'&&', :'||']
+
       ##
       class Not < Unary
         def operator() :'!' end
