@@ -17,6 +17,43 @@ Examples
 
     PHP.eval { echo "Hello, world!\n" }
 
+Reference
+---------
+
+Ruby input                        | PHP output
+----------------------------------|--------------------------------------
+`nil`                             | `NULL`
+`false`                           | `FALSE`
+`true`                            | `TRUE`
+`42`                              | `42`
+`3.1415`                          | `3.1415`
+`"Hello, world!"`                 | `"Hello, world!"`
+`"<#{url}>"`                      | `"<" . $url . ">"`
+`/a-z/`                           | `'/a-z/'`
+`[]`                              | `array()`
+`[1, 2, 3]`                       | `array(1, 2, 3)`
+`{}`                              | `array()`
+`{"a" => 1, "b" => 2, "c" => 3}`  | `array("a" => 1, "b" => 2, "c" => 3)`
+`$foo`                            | `$GLOBALS['foo']`
+`$foo = 123`                      | `$GLOBALS['foo'] = 123`
+`foo`                             | `$foo`
+`foo = 123`                       | `$foo = 123`
+`def foo(x, y); end`              | `function foo($x, $y) {}`
+`a << b`                          | `$a . $b` (*)
+`a + b`                           | `$a + $b`
+`a - b`                           | `$a - $b`
+`a * b`                           | `$a * $b`
+`a / b`                           | `$a / $b`
+`a % b`                           | `$a % $b`
+`a = b`                           | `$a = $b`
+`a == b`                          | `$a == $b`
+`a === b`                         | `$a === $b` (*)
+`a != b`                          | `$a != $b`
+`a < b`                           | `$a < $b`
+`a > b`                           | `$a > $b`
+`a <= b`                          | `$a <= $b`
+`a >= b`                          | `$a >= $b`
+
 Documentation
 -------------
 
