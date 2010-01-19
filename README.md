@@ -1,8 +1,21 @@
-PHP.rb: Ruby-to-PHP Compiler
-============================
+PHP.rb: A Ruby to PHP Code Generator
+====================================
 
 PHP.rb translates [Ruby](http://www.ruby-lang.org/) code into
-[PHP](http://www.php.net/).
+[PHP](http://www.php.net/) code.
+
+Examples
+--------
+
+    require 'php'
+
+### Generating PHP code using a Ruby block
+
+    PHP.generate { echo "Hello, world!\n" }
+
+### Evaluating generated PHP on the fly
+
+    PHP.eval { echo "Hello, world!\n" }
 
 Documentation
 -------------
