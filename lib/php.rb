@@ -21,6 +21,19 @@ module PHP
   autoload :Generator,  'php/generator'
 
   ##
+  # Returns the current PHP version by invoking the `php` executable.
+  #
+  # @example
+  #   PHP.version   #=> "5.3.1"
+  #
+  # @return [String]
+  def self.version
+    version = ''
+    self.exec('<?php echo phpversion();', :stdout => version)
+    version.size > 0 ? version : nil
+  end
+
+  ##
   # Evaluates a given block of code by invoking the `php` executable.
   #
   # @param  [Hash{Symbol => Object}] options
