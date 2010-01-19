@@ -3,112 +3,112 @@ require File.join(File.dirname(__FILE__), 'spec_helper')
 describe PHP::Generator do
   context "literals" do
     it "should support null literals" do
-      php('nil').to_s.should == 'NULL'
-      php{ nil }.to_s.should == 'NULL'
+      phpize('nil').should == 'NULL'
+      phpize{ nil }.should == 'NULL'
     end
 
     it "should support boolean literals" do
-      php('false').to_s.should == 'FALSE'
-      php{ false }.to_s.should == 'FALSE'
-      php('true').to_s.should  == 'TRUE'
-      php{ true }.to_s.should  == 'TRUE'
+      phpize('false').should == 'FALSE'
+      phpize{ false }.should == 'FALSE'
+      phpize('true').should  == 'TRUE'
+      phpize{ true }.should  == 'TRUE'
     end
 
     it "should support integer literals" do
-      php('42').to_s.should == '42'
-      php{ 42 }.to_s.should == '42'
+      phpize('42').should == '42'
+      phpize{ 42 }.should == '42'
     end
 
     it "should support float literals" do
-      php('3.1415').to_s.should == '3.1415'
-      php{ 3.1415 }.to_s.should == '3.1415'
+      phpize('3.1415').should == '3.1415'
+      phpize{ 3.1415 }.should == '3.1415'
     end
 
     it "should support string literals" do
-      php("''").to_s.should == '""'
-      php{ '' }.to_s.should == '""'
-      php('""').to_s.should == '""'
-      php{ "" }.to_s.should == '""'
-      php("'Hello, world!'").to_s.should == '"Hello, world!"'
-      php{ 'Hello, world!' }.to_s.should == '"Hello, world!"'
+      phpize("''").should == '""'
+      phpize{ '' }.should == '""'
+      phpize('""').should == '""'
+      phpize{ "" }.should == '""'
+      phpize("'Hello, world!'").should == '"Hello, world!"'
+      phpize{ 'Hello, world!' }.should == '"Hello, world!"'
     end
 
     it "should support interpolated string literals" do
-      php('"#{url}"').to_s.should == '$url'
-      php{ "#{url}" }.to_s.should == '$url'
-      php('"<#{url}>"').to_s.should == '"<" . $url . ">"'
-      php{ "<#{url}>" }.to_s.should == '"<" . $url . ">"'
-      php('"#{prefix}:#{body}:#{suffix}"').to_s.should == '$prefix . ":" . $body . ":" . $suffix'
-      php{ "#{prefix}:#{body}:#{suffix}" }.to_s.should == '$prefix . ":" . $body . ":" . $suffix'
+      phpize('"#{url}"').should == '$url'
+      phpize{ "#{url}" }.should == '$url'
+      phpize('"<#{url}>"').should == '"<" . $url . ">"'
+      phpize{ "<#{url}>" }.should == '"<" . $url . ">"'
+      phpize('"#{prefix}:#{body}:#{suffix}"').should == '$prefix . ":" . $body . ":" . $suffix'
+      phpize{ "#{prefix}:#{body}:#{suffix}" }.should == '$prefix . ":" . $body . ":" . $suffix'
     end
 
     it "should support regular expression literals" do
-      php('/a-z/').to_s.should == "'/a-z/'"
-      php{ /a-z/ }.to_s.should == "'/a-z/'"
-      php('/\w+/').to_s.should == "'/\\w+/'"
-      php{ /\w+/ }.to_s.should == "'/\\w+/'"
+      phpize('/a-z/').should == "'/a-z/'"
+      phpize{ /a-z/ }.should == "'/a-z/'"
+      phpize('/\w+/').should == "'/\\w+/'"
+      phpize{ /\w+/ }.should == "'/\\w+/'"
     end
 
     it "should support array literals" do
-      php('[]').to_s.should == 'array()'
-      php{ [] }.to_s.should == 'array()'
-      php('[1, 2, 3]').to_s.should == 'array(1, 2, 3)'
-      php{ [1, 2, 3] }.to_s.should == 'array(1, 2, 3)'
+      phpize('[]').should == 'array()'
+      phpize{ [] }.should == 'array()'
+      phpize('[1, 2, 3]').should == 'array(1, 2, 3)'
+      phpize{ [1, 2, 3] }.should == 'array(1, 2, 3)'
     end
 
     it "should support associative array literals" do
-      php('{}').to_s.should == 'array()'
-      php{ {} }.to_s.should == 'array()'
-      php('{"a" => 1, "b" => 2, "c" => 3}').to_s.should == 'array("a" => 1, "b" => 2, "c" => 3)'
-      php{ {"a" => 1, "b" => 2, "c" => 3} }.to_s.should == 'array("a" => 1, "b" => 2, "c" => 3)'
+      phpize('{}').should == 'array()'
+      phpize{ {} }.should == 'array()'
+      phpize('{"a" => 1, "b" => 2, "c" => 3}').should == 'array("a" => 1, "b" => 2, "c" => 3)'
+      phpize{ {"a" => 1, "b" => 2, "c" => 3} }.should == 'array("a" => 1, "b" => 2, "c" => 3)'
     end
   end
 
   context "identifiers" do
     it "should support identifiers" do
-      php(':foo').to_s.should == 'foo'
-      php{ :foo }.to_s.should == 'foo'
+      phpize(':foo').should == 'foo'
+      phpize{ :foo }.should == 'foo'
     end
   end
 
   context "global variables" do
     it "should support global variables" do
-      php('$foo').to_s.should == "$GLOBALS['foo']"
-      php{ $foo }.to_s.should == "$GLOBALS['foo']"
+      phpize('$foo').should == "$GLOBALS['foo']"
+      phpize{ $foo }.should == "$GLOBALS['foo']"
     end
 
     it "should support global variable assignments" do
-      php('$foo = 123').to_s.should == "$GLOBALS['foo'] = 123"
-      php{ $foo = 123 }.to_s.should == "$GLOBALS['foo'] = 123"
+      phpize('$foo = 123').should == "$GLOBALS['foo'] = 123"
+      phpize{ $foo = 123 }.should == "$GLOBALS['foo'] = 123"
     end
   end
 
   context "local variables" do
     it "should support local variables" do
-      php('foo').to_s.should == '$foo'
-      #php{ foo }.to_s.should == '$foo' # FIXME
+      phpize('foo').should == '$foo'
+      #phpize{ foo }.should == '$foo' # FIXME
     end
 
     it "should support local variable assignments" do
-      php('foo = 123').to_s.should == "$foo = 123"
-      php{ foo = 123 }.to_s.should == "$foo = 123"
+      phpize('foo = 123').should == "$foo = 123"
+      phpize{ foo = 123 }.should == "$foo = 123"
     end
   end
 
   context "anonymous functions" do
     it "should support functions of zero parameters" do
-      php('lambda {}').to_s.should == 'function() {}'
-      php{ lambda {} }.to_s.should == 'function() {}'
+      phpize('lambda {}').should == 'function() {}'
+      phpize{ lambda {} }.should == 'function() {}'
     end
 
     it "should support functions of one parameter" do
-      php('lambda { |x| }').to_s.should == 'function($x) {}'
-      php{ lambda { |x| } }.to_s.should == 'function($x) {}'
+      phpize('lambda { |x| }').should == 'function($x) {}'
+      phpize{ lambda { |x| } }.should == 'function($x) {}'
     end
 
     it "should support functions of many parameters" do
-      php('lambda { |x, y| }').to_s.should == 'function($x, $y) {}'
-      php{ lambda { |x, y| } }.to_s.should == 'function($x, $y) {}'
+      phpize('lambda { |x, y| }').should == 'function($x, $y) {}'
+      phpize{ lambda { |x, y| } }.should == 'function($x, $y) {}'
     end
 
     #it "should support functions of variable arity" # TODO
@@ -116,20 +116,20 @@ describe PHP::Generator do
 
   context "named functions" do
     it "should support functions of zero parameters" do
-      php('def foo; end').to_s.should == 'function foo() {}'
-      php{ def foo; end }.to_s.should == 'function foo() {}'
-      php('def foo(); end').to_s.should == 'function foo() {}'
-      php{ def foo(); end }.to_s.should == 'function foo() {}'
+      phpize('def foo; end').should == 'function foo() {}'
+      phpize{ def foo; end }.should == 'function foo() {}'
+      phpize('def foo(); end').should == 'function foo() {}'
+      phpize{ def foo(); end }.should == 'function foo() {}'
     end
 
     it "should support functions of one parameter" do
-      php('def foo(x); end').to_s.should == 'function foo($x) {}'
-      php{ def foo(x); end }.to_s.should == 'function foo($x) {}'
+      phpize('def foo(x); end').should == 'function foo($x) {}'
+      phpize{ def foo(x); end }.should == 'function foo($x) {}'
     end
 
     it "should support functions of many parameters" do
-      php('def foo(x, y); end').to_s.should == 'function foo($x, $y) {}'
-      php{ def foo(x, y); end }.to_s.should == 'function foo($x, $y) {}'
+      phpize('def foo(x, y); end').should == 'function foo($x, $y) {}'
+      phpize{ def foo(x, y); end }.should == 'function foo($x, $y) {}'
     end
 
     #it "should support functions of variable arity" # TODO
@@ -139,13 +139,13 @@ describe PHP::Generator do
     #it "should support function calls with zero arguments" # TODO
 
     it "should support function calls with one argument" do
-      php('inc(1)').to_s.should == 'inc(1)'
-      php{ inc(1) }.to_s.should == 'inc(1)'
+      phpize('inc(1)').should == 'inc(1)'
+      phpize{ inc(1) }.should == 'inc(1)'
     end
 
     it "should support function calls with many arguments" do
-      php('add(1, 2)').to_s.should == 'add(1, 2)'
-      php{ add(1, 2) }.to_s.should == 'add(1, 2)'
+      phpize('add(1, 2)').should == 'add(1, 2)'
+      phpize{ add(1, 2) }.should == 'add(1, 2)'
     end
 
     #it "should support function calls with splat arguments" # TODO
@@ -153,20 +153,20 @@ describe PHP::Generator do
 
   context "interfaces" do
     it "should support interfaces" do
-      php('module Foo; end').to_s.should == 'interface Foo {}'
-      php{ module Foo; end }.to_s.should == 'interface Foo {}'
+      phpize('module Foo; end').should == 'interface Foo {}'
+      phpize{ module Foo; end }.should == 'interface Foo {}'
     end
   end
 
   context "classes" do
     it "should support classes without a parent class" do
-      php('class Foo; end').to_s.should == 'class Foo {}'
-      php{ class Foo; end }.to_s.should == 'class Foo {}'
+      phpize('class Foo; end').should == 'class Foo {}'
+      phpize{ class Foo; end }.should == 'class Foo {}'
     end
 
     it "should support classes with a parent class" do
-      php('class Foo < Bar; end').to_s.should == 'class Foo extends Bar {}'
-      php{ class Foo < Bar; end }.to_s.should == 'class Foo extends Bar {}'
+      phpize('class Foo < Bar; end').should == 'class Foo extends Bar {}'
+      phpize{ class Foo < Bar; end }.should == 'class Foo extends Bar {}'
     end
   end
 
@@ -180,213 +180,213 @@ describe PHP::Generator do
 
   context "arithmetic operators" do
     it "should support the - (negation) operator" do
-      php('-1').to_s.should == '-1'
-      php{ -1 }.to_s.should == '-1'
-      # php('-a').to_s.should == '-$a' TODO
+      phpize('-1').should == '-1'
+      phpize{ -1 }.should == '-1'
+      # phpize('-a').should == '-$a' TODO
     end
 
     it "should support the + (addition) operator" do
-      php('6 + 7').to_s.should == '6 + 7'
-      php{ 6 + 7 }.to_s.should == '6 + 7'
-      php('a + b').to_s.should == '$a + $b'
-      php{ a + b }.to_s.should == '$a + $b'
+      phpize('6 + 7').should == '6 + 7'
+      phpize{ 6 + 7 }.should == '6 + 7'
+      phpize('a + b').should == '$a + $b'
+      phpize{ a + b }.should == '$a + $b'
     end
 
     it "should support the - (subtraction) operator" do
-      php('6 - 7').to_s.should == '6 - 7'
-      php{ 6 - 7 }.to_s.should == '6 - 7'
-      php('a - b').to_s.should == '$a - $b'
-      php{ a - b }.to_s.should == '$a - $b'
+      phpize('6 - 7').should == '6 - 7'
+      phpize{ 6 - 7 }.should == '6 - 7'
+      phpize('a - b').should == '$a - $b'
+      phpize{ a - b }.should == '$a - $b'
     end
 
     it "should support the * (multiplication) operator" do
-      php('6 * 7').to_s.should == '6 * 7'
-      php{ 6 * 7 }.to_s.should == '6 * 7'
-      php('a * b').to_s.should == '$a * $b'
-      php{ a * b }.to_s.should == '$a * $b'
+      phpize('6 * 7').should == '6 * 7'
+      phpize{ 6 * 7 }.should == '6 * 7'
+      phpize('a * b').should == '$a * $b'
+      phpize{ a * b }.should == '$a * $b'
     end
 
     it "should support the / (division) operator" do
-      php('6 / 7').to_s.should == '6 / 7'
-      php{ 6 / 7 }.to_s.should == '6 / 7'
-      php('a / b').to_s.should == '$a / $b'
-      php{ a / b }.to_s.should == '$a / $b'
+      phpize('6 / 7').should == '6 / 7'
+      phpize{ 6 / 7 }.should == '6 / 7'
+      phpize('a / b').should == '$a / $b'
+      phpize{ a / b }.should == '$a / $b'
     end
 
     it "should support the % (modulus) operator" do
-      php('6 % 7').to_s.should == '6 % 7'
-      php{ 6 % 7 }.to_s.should == '6 % 7'
-      php('a % b').to_s.should == '$a % $b'
-      php{ a % b }.to_s.should == '$a % $b'
+      phpize('6 % 7').should == '6 % 7'
+      phpize{ 6 % 7 }.should == '6 % 7'
+      phpize('a % b').should == '$a % $b'
+      phpize{ a % b }.should == '$a % $b'
     end
   end
 
   context "assignment operators" do
     it "should support the = (assignment) operator" do
-      php('x = 42').to_s.should == '$x = 42'
-      php{ x = 42 }.to_s.should == '$x = 42'
-      php('a = b').to_s.should == '$a = $b'
-      php{ a = b }.to_s.should == '$a = $b'
+      phpize('x = 42').should == '$x = 42'
+      phpize{ x = 42 }.should == '$x = 42'
+      phpize('a = b').should == '$a = $b'
+      phpize{ a = b }.should == '$a = $b'
     end
   end
 
   context "bitwise operators" do
     it "should support the & (bitwise and) operator" do
-      php('1 & 0').to_s.should == '1 & 0'
-      php{ 1 & 0 }.to_s.should == '1 & 0'
-      php('a & b').to_s.should == '$a & $b'
-      php{ a & b }.to_s.should == '$a & $b'
+      phpize('1 & 0').should == '1 & 0'
+      phpize{ 1 & 0 }.should == '1 & 0'
+      phpize('a & b').should == '$a & $b'
+      phpize{ a & b }.should == '$a & $b'
     end
 
     it "should support the | (bitwise or) operator" do
-      php('1 | 0').to_s.should == '1 | 0'
-      php{ 1 | 0 }.to_s.should == '1 | 0'
-      php('a | b').to_s.should == '$a | $b'
-      php{ a | b }.to_s.should == '$a | $b'
+      phpize('1 | 0').should == '1 | 0'
+      phpize{ 1 | 0 }.should == '1 | 0'
+      phpize('a | b').should == '$a | $b'
+      phpize{ a | b }.should == '$a | $b'
     end
 
     it "should support the ^ (bitwise xor) operator" do
-      php('1 ^ 0').to_s.should == '1 ^ 0'
-      php{ 1 ^ 0 }.to_s.should == '1 ^ 0'
-      php('a ^ b').to_s.should == '$a ^ $b'
-      php{ a ^ b }.to_s.should == '$a ^ $b'
+      phpize('1 ^ 0').should == '1 ^ 0'
+      phpize{ 1 ^ 0 }.should == '1 ^ 0'
+      phpize('a ^ b').should == '$a ^ $b'
+      phpize{ a ^ b }.should == '$a ^ $b'
     end
 
     it "should support the ~ (bitwise not) operator" do
-      php('~1').to_s.should == '~1'
-      php{ ~1 }.to_s.should == '~1'
-      php('~x').to_s.should == '~$x'
-      php{ ~x }.to_s.should == '~$x'
+      phpize('~1').should == '~1'
+      phpize{ ~1 }.should == '~1'
+      phpize('~x').should == '~$x'
+      phpize{ ~x }.should == '~$x'
     end
 
     #it "should support the << (bitwise left shift) operator" # TODO
 
     it "should support the >> (bitwise right shift) operator" do
-      php('8 >> 2').to_s.should == '8 >> 2'
-      php{ 8 >> 2 }.to_s.should == '8 >> 2'
-      php('a >> b').to_s.should == '$a >> $b'
-      php{ a >> b }.to_s.should == '$a >> $b'
+      phpize('8 >> 2').should == '8 >> 2'
+      phpize{ 8 >> 2 }.should == '8 >> 2'
+      phpize('a >> b').should == '$a >> $b'
+      phpize{ a >> b }.should == '$a >> $b'
     end
   end
 
   context "comparison operators" do
     it "should support the == (equal to) operator" do
-      php('a == b').to_s.should == '$a == $b'
-      php{ a == b }.to_s.should == '$a == $b'
+      phpize('a == b').should == '$a == $b'
+      phpize{ a == b }.should == '$a == $b'
     end
 
     it "should support the === (identical to) operator" do
-      php('a === b').to_s.should == '$a === $b'
-      php{ a === b }.to_s.should == '$a === $b'
+      phpize('a === b').should == '$a === $b'
+      phpize{ a === b }.should == '$a === $b'
     end
 
     it "should support the != (not equal to) operator" do
-      php('a != b').to_s.should == '$a != $b'
-      php{ a != b }.to_s.should == '$a != $b'
+      phpize('a != b').should == '$a != $b'
+      phpize{ a != b }.should == '$a != $b'
     end
 
     it "should support the !== (not identical to) operator" do
       # NOTE: the following is not valid Ruby syntax, unfortunately:
-      #php('a !== b').to_s.should == '$a !== $b'
-      #php{ a !== b }.to_s.should == '$a !== $b'
+      #phpize('a !== b').should == '$a !== $b'
+      #phpize{ a !== b }.should == '$a !== $b'
     end
 
     it "should support the < (less than) operator" do
-      php('a < b').to_s.should == '$a < $b'
-      php{ a < b }.to_s.should == '$a < $b'
+      phpize('a < b').should == '$a < $b'
+      phpize{ a < b }.should == '$a < $b'
     end
 
     it "should support the > (greater than) operator" do
-      php('a > b').to_s.should == '$a > $b'
-      php{ a > b }.to_s.should == '$a > $b'
+      phpize('a > b').should == '$a > $b'
+      phpize{ a > b }.should == '$a > $b'
     end
 
     it "should support the <= (less than or equal to) operator" do
-      php('a <= b').to_s.should == '$a <= $b'
-      php{ a <= b }.to_s.should == '$a <= $b'
+      phpize('a <= b').should == '$a <= $b'
+      phpize{ a <= b }.should == '$a <= $b'
     end
 
     it "should support the >= (greater than or equal to) operator" do
-      php('a >= b').to_s.should == '$a >= $b'
-      php{ a >= b }.to_s.should == '$a >= $b'
+      phpize('a >= b').should == '$a >= $b'
+      phpize{ a >= b }.should == '$a >= $b'
     end
   end
 
   context "execution operators" do
     it "should support the `` (backticks) operator" do
-      php('`hostname`').to_s.should == '`hostname`'
-      php{ `hostname` }.to_s.should == '`hostname`'
+      phpize('`hostname`').should == '`hostname`'
+      phpize{ `hostname` }.should == '`hostname`'
     end
   end
 
   context "logical operators" do
     it "should support the ! (logical not) operator" do
-      php('!true').to_s.should == '!TRUE'
-      php{ !true }.to_s.should == '!TRUE'
-      php('!a').to_s.should == '!$a'
-      php{ !a }.to_s.should == '!$a'
+      phpize('!true').should == '!TRUE'
+      phpize{ !true }.should == '!TRUE'
+      phpize('!a').should == '!$a'
+      phpize{ !a }.should == '!$a'
     end
 
     it "should support the && (logical and) operator" do
-      php('true && false').to_s.should == 'TRUE && FALSE'
-      php{ true && false }.to_s.should == 'TRUE && FALSE'
-      php('a and b').to_s.should == '$a && $b'
-      php{ a and b }.to_s.should == '$a && $b'
-      php('a && b').to_s.should == '$a && $b'
-      php{ a && b }.to_s.should == '$a && $b'
+      phpize('true && false').should == 'TRUE && FALSE'
+      phpize{ true && false }.should == 'TRUE && FALSE'
+      phpize('a and b').should == '$a && $b'
+      phpize{ a and b }.should == '$a && $b'
+      phpize('a && b').should == '$a && $b'
+      phpize{ a && b }.should == '$a && $b'
     end
 
     it "should support the || (logical or) operator" do
-      php('true || false').to_s.should == 'TRUE || FALSE'
-      php{ true || false }.to_s.should == 'TRUE || FALSE'
-      php('a or b').to_s.should == '$a || $b'
-      php{ a or b }.to_s.should == '$a || $b'
-      php('a || b').to_s.should == '$a || $b'
-      php{ a || b }.to_s.should == '$a || $b'
+      phpize('true || false').should == 'TRUE || FALSE'
+      phpize{ true || false }.should == 'TRUE || FALSE'
+      phpize('a or b').should == '$a || $b'
+      phpize{ a or b }.should == '$a || $b'
+      phpize('a || b').should == '$a || $b'
+      phpize{ a || b }.should == '$a || $b'
     end
   end
 
   context "string operators" do
     it "should support the . (concatenation) operator" do
-      php('"123" << "456"').to_s.should == '"123" . "456"'
-      php{ "123" << "456" }.to_s.should == '"123" . "456"'
+      phpize('"123" << "456"').should == '"123" . "456"'
+      phpize{ "123" << "456" }.should == '"123" . "456"'
     end
   end
 
   context "control structures" do
     it "should support return statements" do
-      php('return').to_s.should == 'return'
-      php{ return }.to_s.should == 'return'
-      php('return nil').to_s.should == 'return NULL'
-      php{ return nil }.to_s.should == 'return NULL'
-      php('return true').to_s.should == 'return TRUE'
-      php{ return true }.to_s.should == 'return TRUE'
-      php('return 42').to_s.should == 'return 42'
-      php{ return 42 }.to_s.should == 'return 42'
+      phpize('return').should == 'return'
+      phpize{ return }.should == 'return'
+      phpize('return nil').should == 'return NULL'
+      phpize{ return nil }.should == 'return NULL'
+      phpize('return true').should == 'return TRUE'
+      phpize{ return true }.should == 'return TRUE'
+      phpize('return 42').should == 'return 42'
+      phpize{ return 42 }.should == 'return 42'
     end
 
     it "should support if statements" do # FIXME
-      php('if true then 1 end').to_s.should == 'if (TRUE) { 1 }'
-      php{ if true then 1 end }.to_s.should == 'if (TRUE) { 1 }'
+      phpize('if true then 1 end').should == 'if (TRUE) { 1 }'
+      phpize{ if true then 1 end }.should == 'if (TRUE) { 1 }'
     end
 
     it "should support if/else statements" do # FIXME
-      php('if true then 1 else 0 end').to_s.should == 'if (TRUE) { 1 } else { 0 }'
-      php{ if true then 1 else 0 end }.to_s.should == 'if (TRUE) { 1 } else { 0 }'
+      phpize('if true then 1 else 0 end').should == 'if (TRUE) { 1 } else { 0 }'
+      phpize{ if true then 1 else 0 end }.should == 'if (TRUE) { 1 } else { 0 }'
     end
 
     #it "should support if/elseif statements" # TODO
 
     it "should support unless statements" do
-      php('unless true  then 0 end').to_s.should == 'if (!TRUE) { 0 }'
-      php{ unless true  then 0 end }.to_s.should == 'if (!TRUE) { 0 }'
-      php('unless false then 1 end').to_s.should == 'if (!FALSE) { 1 }'
-      php{ unless false then 1 end }.to_s.should == 'if (!FALSE) { 1 }'
+      phpize('unless true  then 0 end').should == 'if (!TRUE) { 0 }'
+      phpize{ unless true  then 0 end }.should == 'if (!TRUE) { 0 }'
+      phpize('unless false then 1 end').should == 'if (!FALSE) { 1 }'
+      phpize{ unless false then 1 end }.should == 'if (!FALSE) { 1 }'
     end
 
     it "should support unless/else statements" do # FIXME
-      php('unless false then 1 else 0 end').to_s.should == 'if (FALSE) { 0 } else { 1 }'
-      php{ unless false then 1 else 0 end }.to_s.should == 'if (FALSE) { 0 } else { 1 }'
+      phpize('unless false then 1 else 0 end').should == 'if (FALSE) { 0 } else { 1 }'
+      phpize{ unless false then 1 else 0 end }.should == 'if (FALSE) { 0 } else { 1 }'
     end
 
     #it "should support while statements"    # TODO
@@ -398,11 +398,11 @@ describe PHP::Generator do
     #it "should support switch statements"   # TODO
   end
 
-  def php(input = nil, &block)
+  def phpize(input = nil, &block)
     if block_given?
-      PHP::Generator.process(&block)
+      PHP::Generator.process(&block).to_s
     else
-      PHP::Generator.process(input)
+      PHP::Generator.process(input).to_s
     end
   end
 end
