@@ -9,7 +9,7 @@ module PHP
     ##
     # @param  [Symbol, #to_s]          name
     # @param  [Hash{Symbol => Object}] options
-    # @options options [Boolean] :global (false)
+    # @option options [Boolean] :global (false)
     def initialize(name, options = {})
       @name = case name
         when Variable
