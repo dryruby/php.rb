@@ -25,7 +25,7 @@ module PHP
         when :'!'   then Logical::Not
         when :'&&'  then Logical::And
         when :'||'  then Logical::Or
-        when :<<    then String:Concatenation
+        when :<<    then String::Concatenation
       end
     end
 

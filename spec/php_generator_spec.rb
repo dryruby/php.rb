@@ -317,7 +317,10 @@ describe PHP::Generator do
   end
 
   context "string operators" do
-    # TODO
+    it "should support the . (concatenation) operator" do
+      php('"123" << "456"').to_s.should == '"123" . "456"'
+      php{ "123" << "456" }.to_s.should == '"123" . "456"'
+    end
   end
 
   context "control structures" do
