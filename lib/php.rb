@@ -19,4 +19,31 @@ module PHP
 
   # PHP code generator
   autoload :Generator,  'php/generator'
+
+  ##
+  # Evaluates a given block of code by invoking the `php` executable.
+  #
+  # @param  [Hash{Symbol => Object}] options
+  # @option options [IO, #<<] :stdout ($stdout)
+  # @option options [IO, #<<] :stderr ($stderr)
+  # @yield
+  # @return [void]
+  def self.eval(options = {}, &block)
+    if php = PHP::Program.new(PHP::Generator.process(&block)) # FIXME
+      self.exec(php, options)
+    end
+  end
+
+  ##
+  # Executes a PHP program by invoking the `php` executable.
+  #
+  # @param  [Program, String, #to_s] program
+  # @param  [Hash{Symbol => Object}] options
+  # @option options [IO, #<<] :stdout ($stdout)
+  # @option options [IO, #<<] :stderr ($stderr)
+  # @return [Process::Status]
+  def self.exec(program, options = {})
+    require 'open4' unless defined?(Open4)
+    Open4::spawn('php', {:stdin => program.to_s, :stdout => $stdout, :stderr => $stderr}.merge(options))
+  end
 end

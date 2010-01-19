@@ -30,7 +30,7 @@ module PHP
     #
     # @return [String]
     def to_php
-      "<?php\n" << statements.map(&:to_php).join("\n")
+      "<?php\n" << statements.map(&:to_php).join(";\n") << ';' # FIXME
     end
   end
 end
