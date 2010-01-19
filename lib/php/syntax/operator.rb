@@ -22,10 +22,10 @@ module PHP
         when :>     then Comparison::MoreThan
         when :<=    then Comparison::LessOrEqual
         when :>=    then Comparison::MoreOrEqual
-        when :<<    then String:Concatenation
         when :'!'   then Logical::Not
         when :'&&'  then Logical::And
         when :'||'  then Logical::Or
+        when :<<    then String:Concatenation
       end
     end
 
@@ -123,6 +123,7 @@ module PHP
     end
 
     ##
+    # @see http://php.net/manual/en/language.operators.comparison.php#language.operators.comparison.ternary
     class Ternary < Operator
       # TODO
     end
@@ -252,13 +253,14 @@ module PHP
     end
 
     ##
-    # @see http://php.net/manual/en/language.operators.string.php
-    module String
-      OPERATORS = [:'.']
-
+    # @see http://php.net/manual/en/language.operators.execution.php
+    class Execution < Unary
       ##
-      class Concatenation < Binary
-        def operator() :'.' end
+      # Returns the PHP representation of this operation.
+      #
+      # @return [String]
+      def to_php
+        "`#{operand}`"
       end
     end
 
@@ -280,6 +282,17 @@ module PHP
       ##
       class Or < Binary
         def operator() :'||' end
+      end
+    end
+
+    ##
+    # @see http://php.net/manual/en/language.operators.string.php
+    module String
+      OPERATORS = [:'.']
+
+      ##
+      class Concatenation < Binary
+        def operator() :'.' end
       end
     end
   end

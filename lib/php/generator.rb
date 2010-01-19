@@ -385,5 +385,17 @@ module PHP
     def process_or(exp)
       Operator::Logical::Or.new(process(exp.shift), process(exp.shift))
     end
+
+    ##
+    # Processes `[:xstr, command]` expressions.
+    #
+    # @example
+    #   process{`hostname`} == process([:xstr, 'hostname'])
+    #
+    # @param  [Array(String)] exp
+    # @return [Operator::Execution]
+    def process_xstr(exp)
+      Operator::Execution.new(exp.shift)
+    end
   end
 end

@@ -283,7 +283,10 @@ describe PHP::Generator do
   end
 
   context "execution operators" do
-    # TODO
+    it "should support the `` (backticks) operator" do
+      php('`hostname`').to_s.should == '`hostname`'
+      php{ `hostname` }.to_s.should == '`hostname`'
+    end
   end
 
   context "logical operators" do
