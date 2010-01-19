@@ -87,9 +87,21 @@ module PHP
     #   process{[1, 2, 3]} == process([:array, [:lit, 1], [:lit, 2], [:lit, 3]])
     #
     # @param  [Array<Array>] exp
-    # @return [Literal:Array]
+    # @return [Literal::Array]
     def process_array(exp)
       Literal::Array.new(*exp.map { |element| process(element) })
+    end
+
+    ##
+    # Processes `[:hash, ...]` expressions.
+    #
+    # @example
+    #   process{{:a => 1, :b => 2}} == process([:hash, [:lit, :a], [:lit, 1], [:lit, :b], [:lit, 2]])
+    #
+    # @param  [Array<Array>] exp
+    # @return [Literal::Hash]
+    def process_hash(exp)
+      Literal::Hash.new(*exp.map { |element| process(element) }.enum_slice(2))
     end
 
     ##

@@ -38,9 +38,11 @@ describe PHP::Generator do
       php{ [] }.to_s.should == 'array()'
       php('[1, 2, 3]').to_s.should == 'array(1, 2, 3)'
       php{ [1, 2, 3] }.to_s.should == 'array(1, 2, 3)'
+      php('{}').to_s.should == 'array()'
+      php{ {} }.to_s.should == 'array()'
+      php('{"a" => 1, "b" => 2, "c" => 3}').to_s.should == 'array("a" => 1, "b" => 2, "c" => 3)'
+      php{ {"a" => 1, "b" => 2, "c" => 3} }.to_s.should == 'array("a" => 1, "b" => 2, "c" => 3)'
     end
-
-    it "should support associative array literals" # TODO
   end
 
   context "identifiers" do
