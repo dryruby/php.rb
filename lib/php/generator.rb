@@ -81,6 +81,35 @@ module PHP
     end
 
     ##
+    # Processes `[:dstr, prefix, ...]` expressions.
+    #
+    # @example
+    #   process([:dstr, "<", [:evstr, [:call, nil, :url, [:arglist]]], [:str, ">"]])
+    #
+    # @param  [Array] exp
+    # @return [Operator::String::Concatenation]
+    def process_dstr(exp)
+      prefix = exp.shift.to_s
+      parts  = prefix.empty? ? [] : [Literal.new(prefix)]
+      parts += exp.map { |part| process(part) }
+      parts.reverse.inject(nil) do |prefix, part|
+        prefix.nil? ? part : Operator::String::Concatenation.new(part, prefix)
+      end
+    end
+
+    ##
+    # Processes `[:evstr, operation]` expressions.
+    #
+    # @example
+    #   process([:evstr, [:call, nil, :url, [:arglist]]])
+    #
+    # @param  [Array(Array)] exp
+    # @return [Expression]
+    def process_evstr(exp)
+      process(exp.shift)
+    end
+
+    ##
     # Processes `[:array, ...]` expressions.
     #
     # @example

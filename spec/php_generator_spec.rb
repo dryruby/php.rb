@@ -33,11 +33,23 @@ describe PHP::Generator do
       php{ 'Hello, world!' }.to_s.should == '"Hello, world!"'
     end
 
+    it "should support interpolated string literals" do
+      php('"#{url}"').to_s.should == '$url'
+      php{ "#{url}" }.to_s.should == '$url'
+      php('"<#{url}>"').to_s.should == '"<" . $url . ">"'
+      php{ "<#{url}>" }.to_s.should == '"<" . $url . ">"'
+      php('"#{prefix}:#{body}:#{suffix}"').to_s.should == '$prefix . ":" . $body . ":" . $suffix'
+      php{ "#{prefix}:#{body}:#{suffix}" }.to_s.should == '$prefix . ":" . $body . ":" . $suffix'
+    end
+
     it "should support array literals" do
       php('[]').to_s.should == 'array()'
       php{ [] }.to_s.should == 'array()'
       php('[1, 2, 3]').to_s.should == 'array(1, 2, 3)'
       php{ [1, 2, 3] }.to_s.should == 'array(1, 2, 3)'
+    end
+
+    it "should support associative array literals" do
       php('{}').to_s.should == 'array()'
       php{ {} }.to_s.should == 'array()'
       php('{"a" => 1, "b" => 2, "c" => 3}').to_s.should == 'array("a" => 1, "b" => 2, "c" => 3)'
