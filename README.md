@@ -9,6 +9,10 @@ Examples
 
     require 'php'
 
+### Checking the available PHP version
+
+    PHP.version   #=> "5.3.1"
+
 ### Generating PHP code using a Ruby block
 
     PHP.generate { echo "Hello, world!\n" }
