@@ -9,7 +9,7 @@ GEMSPEC = Gem::Specification.new do |gem|
   gem.homepage           = 'http://php.rubyforge.org/'
   gem.license            = 'Public Domain' if gem.respond_to?(:license=)
   gem.summary            = 'A Ruby-to-PHP code generator.'
-  gem.description        = 'PHP.rb is a Ruby-to-PHP code generator.'
+  gem.description        = 'PHP.rb translates Ruby code into PHP code.'
   gem.rubyforge_project  = 'php'
 
   gem.authors            = ['Arto Bendiken']
