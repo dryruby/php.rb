@@ -42,6 +42,13 @@ describe PHP::Generator do
       php{ "#{prefix}:#{body}:#{suffix}" }.to_s.should == '$prefix . ":" . $body . ":" . $suffix'
     end
 
+    it "should support regular expression literals" do
+      php('/a-z/').to_s.should == "'/a-z/'"
+      php{ /a-z/ }.to_s.should == "'/a-z/'"
+      php('/\w+/').to_s.should == "'/\\w+/'"
+      php{ /\w+/ }.to_s.should == "'/\\w+/'"
+    end
+
     it "should support array literals" do
       php('[]').to_s.should == 'array()'
       php{ [] }.to_s.should == 'array()'

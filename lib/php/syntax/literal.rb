@@ -30,6 +30,7 @@ module PHP
         when Integer    then value.to_s
         when Float      then value.to_s
         when String     then value.inspect # FIXME
+        when Regexp     then "'#{value.inspect}'"
         when ::Array
           "array(#{value.join(', ')})"
         when ::Hash
