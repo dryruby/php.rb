@@ -33,5 +33,23 @@ module PHP
         else value.to_s
       end
     end
+
+    ##
+    # @see http://php.net/manual/en/language.types.array.php
+    class Array < Literal
+      ##
+      # @param  [Array<Expression>] elements
+      def initialize(*elements)
+        @children = elements
+      end
+
+      ##
+      # Returns the PHP representation of this array literal.
+      #
+      # @return [String]
+      def to_php
+        "array(#{children.join(', ')})"
+      end
+    end
   end
 end

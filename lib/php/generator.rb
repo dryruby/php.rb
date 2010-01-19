@@ -81,6 +81,18 @@ module PHP
     end
 
     ##
+    # Processes `[:array, ...]` expressions.
+    #
+    # @example
+    #   process{[1, 2, 3]} == process([:array, [:lit, 1], [:lit, 2], [:lit, 3]])
+    #
+    # @param  [Array<Array>] exp
+    # @return [Literal:Array]
+    def process_array(exp)
+      Literal::Array.new(*exp.map { |element| process(element) })
+    end
+
+    ##
     # Processes `[:gvar, symbol]` expressions.
     #
     # @example
