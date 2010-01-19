@@ -4,6 +4,7 @@
 --no-private
 --hide-void-return
 --markup markdown
+--markup-provider rdiscount
 --readme README.md
 -
 AUTHORS
