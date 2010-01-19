@@ -29,9 +29,7 @@ module PHP
   # @yield
   # @return [void]
   def self.eval(options = {}, &block)
-    if php = PHP::Program.new(PHP::Generator.process(&block)) # FIXME
-      self.exec(php, options)
-    end
+    self.exec(self.generate(&block), options)
   end
 
   ##
@@ -45,5 +43,21 @@ module PHP
   def self.exec(program, options = {})
     require 'open4' unless defined?(Open4)
     Open4::spawn('php', {:stdin => program.to_s, :stdout => $stdout, :stderr => $stderr}.merge(options))
+  end
+
+  ##
+  # Translates the given block of code into abstract PHP code.
+  #
+  # @overload generate(input, options = {})
+  #   @param  [String] input
+  #   @param  [Hash{Symbol => Object}] options
+  #
+  # @overload generate(options = {}, &block)
+  #   @yield
+  #   @param  [Hash{Symbol => Object}] options
+  #
+  # @return [Program]
+  def self.generate(input = nil, options = {}, &block)
+    PHP::Program.new(PHP::Generator.process(input, options, &block)) # FIXME
   end
 end

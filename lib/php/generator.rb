@@ -7,14 +7,16 @@ module PHP
   ##
   class Generator < SexpProcessor
     ##
-    # @overload process(input)
+    # @overload process(input, options = {})
     #   @param  [String] input
+    #   @param  [Hash{Symbol => Object}] options
     #
-    # @overload process(&block)
+    # @overload process(options = {}, &block)
     #   @yield
+    #   @param  [Hash{Symbol => Object}] options
     #
     # @return [Node]
-    def self.process(input = nil, &block)
+    def self.process(input = nil, options = {}, &block)
       if block_given?
         # The return value from #to_sexp will be in the format:
         # `s(:iter, s(:call, nil, :proc, s(:arglist)), nil, s(...))`
