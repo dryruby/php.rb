@@ -406,14 +406,14 @@ module PHP
     # @param  [Array(Array, Array, Array)] exp
     # @return [Statement::If]
     def process_if(exp)
-      condition, true_branch, else_branch = exp
+      condition, then_branch, else_branch = exp
       case
-        when true_branch.nil?
-          Statement::If.new(Operator::Logical::Not.new(process(condition)), process(else_branch))
         when else_branch.nil?
-          Statement::If.new(process(condition), process(true_branch))
+          Statement::If.new(process(condition), process(then_branch))
+        when then_branch.nil?
+          Statement::If.new(Operator::Logical::Not.new(process(condition)), process(else_branch))
         else
-          Statement::If.new(process(condition), process(true_branch), process(else_branch))
+          Statement::If.new(process(condition), process(then_branch), process(else_branch))
       end
     end
 

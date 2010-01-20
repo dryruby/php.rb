@@ -365,28 +365,40 @@ describe PHP::Generator do
       phpize{ return 42 }.should == 'return 42'
     end
 
-    it "should support if statements" do # FIXME
-      phpize('if true then 1 end').should == 'if (TRUE) { 1 }'
-      phpize{ if true then 1 end }.should == 'if (TRUE) { 1 }'
+    it "should support if statements with an empty then branch" do
+      phpize('if true then end').should == 'if (TRUE) {}'
+      phpize{ if true then end }.should == 'if (TRUE) {}'
     end
 
-    it "should support if/else statements" do # FIXME
-      phpize('if true then 1 else 0 end').should == 'if (TRUE) { 1 } else { 0 }'
-      phpize{ if true then 1 else 0 end }.should == 'if (TRUE) { 1 } else { 0 }'
+    it "should support if statements with a then branch" do # FIXME
+      phpize('if true then 1 end').should == 'if (TRUE) { 1; }'
+      phpize{ if true then 1 end }.should == 'if (TRUE) { 1; }'
+    end
+
+    it "should support if statements with both then/else branches" do # FIXME
+      phpize('if true then 1 else 0 end').should == 'if (TRUE) { 1; } else { 0; }'
+      phpize{ if true then 1 else 0 end }.should == 'if (TRUE) { 1; } else { 0; }'
     end
 
     #it "should support if/elseif statements" # TODO
 
+    it "should support unless statements with an empty then branch" do
+      # FIXME: the parse tree for this is at present indistinguishable from
+      # "if true then end", so there probably is a bug in RubyParser:
+      #phpize('unless true then end').should == 'if (!TRUE) {}'
+      #phpize{ unless true then end }.should == 'if (!TRUE) {}'
+    end
+
     it "should support unless statements" do
-      phpize('unless true  then 0 end').should == 'if (!TRUE) { 0 }'
-      phpize{ unless true  then 0 end }.should == 'if (!TRUE) { 0 }'
-      phpize('unless false then 1 end').should == 'if (!FALSE) { 1 }'
-      phpize{ unless false then 1 end }.should == 'if (!FALSE) { 1 }'
+      phpize('unless true  then 0 end').should == 'if (!TRUE) { 0; }'
+      phpize{ unless true  then 0 end }.should == 'if (!TRUE) { 0; }'
+      phpize('unless false then 1 end').should == 'if (!FALSE) { 1; }'
+      phpize{ unless false then 1 end }.should == 'if (!FALSE) { 1; }'
     end
 
     it "should support unless/else statements" do # FIXME
-      phpize('unless false then 1 else 0 end').should == 'if (FALSE) { 0 } else { 1 }'
-      phpize{ unless false then 1 else 0 end }.should == 'if (FALSE) { 0 } else { 1 }'
+      phpize('unless false then 1 else 0 end').should == 'if (FALSE) { 0; } else { 1; }'
+      phpize{ unless false then 1 else 0 end }.should == 'if (FALSE) { 0; } else { 1; }'
     end
 
     #it "should support while statements"    # TODO

@@ -60,6 +60,14 @@ module PHP
       end
 
       ##
+      # Returns `true` if this statement has a `then` branch.
+      #
+      # @return [Boolean]
+      def then_branch?
+        !@then_branch.nil?
+      end
+
+      ##
       # Returns `true` if this statement has an `else` branch.
       #
       # @return [Boolean]
@@ -72,10 +80,13 @@ module PHP
       #
       # @return [String]
       def to_php
-        if else_branch?
-          "if (#{condition}) { #{then_branch} } else { #{else_branch} }"
-        else
-          "if (#{condition}) { #{then_branch} }"
+        case
+          when else_branch?
+            "if (#{condition}) { #{then_branch} } else { #{else_branch} }"
+          when then_branch?
+            "if (#{condition}) { #{then_branch} }"
+          else
+            "if (#{condition}) {}"
         end
       end
     end
