@@ -34,12 +34,12 @@ describe PHP::Generator do
     end
 
     it "should support interpolated string literals" do
-      phpize('"#{url}"').should == '$url'
-      phpize{ "#{url}" }.should == '$url'
-      phpize('"<#{url}>"').should == '"<" . $url . ">"'
-      phpize{ "<#{url}>" }.should == '"<" . $url . ">"'
-      phpize('"#{prefix}:#{body}:#{suffix}"').should == '$prefix . ":" . $body . ":" . $suffix'
-      phpize{ "#{prefix}:#{body}:#{suffix}" }.should == '$prefix . ":" . $body . ":" . $suffix'
+      phpize('"#{$url}"').should == '$url'
+      phpize{ "#{$url}" }.should == '$url'
+      phpize('"<#{$url}>"').should == '"<" . $url . ">"'
+      phpize{ "<#{$url}>" }.should == '"<" . $url . ">"'
+      phpize('"#{$prefix}:#{$body}:#{$suffix}"').should == '$prefix . ":" . $body . ":" . $suffix'
+      phpize{ "#{$prefix}:#{$body}:#{$suffix}" }.should == '$prefix . ":" . $body . ":" . $suffix'
     end
 
     it "should support regular expression literals" do
@@ -71,27 +71,27 @@ describe PHP::Generator do
     end
   end
 
-  context "global variables" do
-    it "should support global variables" do
-      phpize('$foo').should == "$GLOBALS['foo']"
-      phpize{ $foo }.should == "$GLOBALS['foo']"
-    end
-
-    it "should support global variable assignments" do
-      phpize('$foo = 123').should == "$GLOBALS['foo'] = 123"
-      phpize{ $foo = 123 }.should == "$GLOBALS['foo'] = 123"
-    end
-  end
+  #context "global variables" do
+  #  it "should support global variables" do
+  #    phpize('$foo').should == "$GLOBALS['foo']"
+  #    phpize{ $foo }.should == "$GLOBALS['foo']"
+  #  end
+  #
+  #  it "should support global variable assignments" do
+  #    phpize('$foo = 123').should == "$GLOBALS['foo'] = 123"
+  #    phpize{ $foo = 123 }.should == "$GLOBALS['foo'] = 123"
+  #  end
+  #end
 
   context "local variables" do
     it "should support local variables" do
-      phpize('foo').should == '$foo'
-      #phpize{ foo }.should == '$foo' # FIXME
+      phpize('$foo').should == '$foo'
+      phpize{ $foo }.should == '$foo'
     end
 
     it "should support local variable assignments" do
-      phpize('foo = 123').should == "$foo = 123"
-      phpize{ foo = 123 }.should == "$foo = 123"
+      phpize('$foo = 123').should == "$foo = 123"
+      phpize{ $foo = 123 }.should == "$foo = 123"
     end
   end
 
@@ -188,45 +188,45 @@ describe PHP::Generator do
     it "should support the + (addition) operator" do
       phpize('6 + 7').should == '6 + 7'
       phpize{ 6 + 7 }.should == '6 + 7'
-      phpize('a + b').should == '$a + $b'
-      phpize{ a + b }.should == '$a + $b'
+      phpize('$a + $b').should == '$a + $b'
+      phpize{ $a + $b }.should == '$a + $b'
     end
 
     it "should support the - (subtraction) operator" do
       phpize('6 - 7').should == '6 - 7'
       phpize{ 6 - 7 }.should == '6 - 7'
-      phpize('a - b').should == '$a - $b'
-      phpize{ a - b }.should == '$a - $b'
+      phpize('$a - $b').should == '$a - $b'
+      phpize{ $a - $b }.should == '$a - $b'
     end
 
     it "should support the * (multiplication) operator" do
       phpize('6 * 7').should == '6 * 7'
       phpize{ 6 * 7 }.should == '6 * 7'
-      phpize('a * b').should == '$a * $b'
-      phpize{ a * b }.should == '$a * $b'
+      phpize('$a * $b').should == '$a * $b'
+      phpize{ $a * $b }.should == '$a * $b'
     end
 
     it "should support the / (division) operator" do
       phpize('6 / 7').should == '6 / 7'
       phpize{ 6 / 7 }.should == '6 / 7'
-      phpize('a / b').should == '$a / $b'
-      phpize{ a / b }.should == '$a / $b'
+      phpize('$a / $b').should == '$a / $b'
+      phpize{ $a / $b }.should == '$a / $b'
     end
 
     it "should support the % (modulus) operator" do
       phpize('6 % 7').should == '6 % 7'
       phpize{ 6 % 7 }.should == '6 % 7'
-      phpize('a % b').should == '$a % $b'
-      phpize{ a % b }.should == '$a % $b'
+      phpize('$a % $b').should == '$a % $b'
+      phpize{ $a % $b }.should == '$a % $b'
     end
   end
 
   context "assignment operators" do
     it "should support the = (assignment) operator" do
-      phpize('x = 42').should == '$x = 42'
-      phpize{ x = 42 }.should == '$x = 42'
-      phpize('a = b').should == '$a = $b'
-      phpize{ a = b }.should == '$a = $b'
+      phpize('$x = 42').should == '$x = 42'
+      phpize{ $x = 42 }.should == '$x = 42'
+      phpize('$a = $b').should == '$a = $b'
+      phpize{ $a = $b }.should == '$a = $b'
     end
   end
 
@@ -234,29 +234,29 @@ describe PHP::Generator do
     it "should support the & (bitwise and) operator" do
       phpize('1 & 0').should == '1 & 0'
       phpize{ 1 & 0 }.should == '1 & 0'
-      phpize('a & b').should == '$a & $b'
-      phpize{ a & b }.should == '$a & $b'
+      phpize('$a & $b').should == '$a & $b'
+      phpize{ $a & $b }.should == '$a & $b'
     end
 
     it "should support the | (bitwise or) operator" do
       phpize('1 | 0').should == '1 | 0'
       phpize{ 1 | 0 }.should == '1 | 0'
-      phpize('a | b').should == '$a | $b'
-      phpize{ a | b }.should == '$a | $b'
+      phpize('$a | $b').should == '$a | $b'
+      phpize{ $a | $b }.should == '$a | $b'
     end
 
     it "should support the ^ (bitwise xor) operator" do
       phpize('1 ^ 0').should == '1 ^ 0'
       phpize{ 1 ^ 0 }.should == '1 ^ 0'
-      phpize('a ^ b').should == '$a ^ $b'
-      phpize{ a ^ b }.should == '$a ^ $b'
+      phpize('$a ^ $b').should == '$a ^ $b'
+      phpize{ $a ^ $b }.should == '$a ^ $b'
     end
 
     it "should support the ~ (bitwise not) operator" do
       phpize('~1').should == '~1'
       phpize{ ~1 }.should == '~1'
-      phpize('~x').should == '~$x'
-      phpize{ ~x }.should == '~$x'
+      phpize('~$x').should == '~$x'
+      phpize{ ~$x }.should == '~$x'
     end
 
     #it "should support the << (bitwise left shift) operator" # TODO
@@ -264,51 +264,51 @@ describe PHP::Generator do
     it "should support the >> (bitwise right shift) operator" do
       phpize('8 >> 2').should == '8 >> 2'
       phpize{ 8 >> 2 }.should == '8 >> 2'
-      phpize('a >> b').should == '$a >> $b'
-      phpize{ a >> b }.should == '$a >> $b'
+      phpize('$a >> $b').should == '$a >> $b'
+      phpize{ $a >> $b }.should == '$a >> $b'
     end
   end
 
   context "comparison operators" do
     it "should support the == (equal to) operator" do
-      phpize('a == b').should == '$a == $b'
-      phpize{ a == b }.should == '$a == $b'
+      phpize('$a == $b').should == '$a == $b'
+      phpize{ $a == $b }.should == '$a == $b'
     end
 
     it "should support the === (identical to) operator" do
-      phpize('a === b').should == '$a === $b'
-      phpize{ a === b }.should == '$a === $b'
+      phpize('$a === $b').should == '$a === $b'
+      phpize{ $a === $b }.should == '$a === $b'
     end
 
     it "should support the != (not equal to) operator" do
-      phpize('a != b').should == '$a != $b'
-      phpize{ a != b }.should == '$a != $b'
+      phpize('$a != $b').should == '$a != $b'
+      phpize{ $a != $b }.should == '$a != $b'
     end
 
     it "should support the !== (not identical to) operator" do
       # NOTE: the following is not valid Ruby syntax, unfortunately:
-      #phpize('a !== b').should == '$a !== $b'
-      #phpize{ a !== b }.should == '$a !== $b'
+      #phpize('$a !== $b').should == '$a !== $b'
+      #phpize{ $a !== $b }.should == '$a !== $b'
     end
 
     it "should support the < (less than) operator" do
-      phpize('a < b').should == '$a < $b'
-      phpize{ a < b }.should == '$a < $b'
+      phpize('$a < $b').should == '$a < $b'
+      phpize{ $a < $b }.should == '$a < $b'
     end
 
     it "should support the > (greater than) operator" do
-      phpize('a > b').should == '$a > $b'
-      phpize{ a > b }.should == '$a > $b'
+      phpize('$a > $b').should == '$a > $b'
+      phpize{ $a > $b }.should == '$a > $b'
     end
 
     it "should support the <= (less than or equal to) operator" do
-      phpize('a <= b').should == '$a <= $b'
-      phpize{ a <= b }.should == '$a <= $b'
+      phpize('$a <= $b').should == '$a <= $b'
+      phpize{ $a <= $b }.should == '$a <= $b'
     end
 
     it "should support the >= (greater than or equal to) operator" do
-      phpize('a >= b').should == '$a >= $b'
-      phpize{ a >= b }.should == '$a >= $b'
+      phpize('$a >= $b').should == '$a >= $b'
+      phpize{ $a >= $b }.should == '$a >= $b'
     end
   end
 
@@ -323,26 +323,26 @@ describe PHP::Generator do
     it "should support the ! (logical not) operator" do
       phpize('!true').should == '!TRUE'
       phpize{ !true }.should == '!TRUE'
-      phpize('!a').should == '!$a'
-      phpize{ !a }.should == '!$a'
+      phpize('!$a').should == '!$a'
+      phpize{ !$a }.should == '!$a'
     end
 
     it "should support the && (logical and) operator" do
       phpize('true && false').should == 'TRUE && FALSE'
       phpize{ true && false }.should == 'TRUE && FALSE'
-      phpize('a and b').should == '$a && $b'
-      phpize{ a and b }.should == '$a && $b'
-      phpize('a && b').should == '$a && $b'
-      phpize{ a && b }.should == '$a && $b'
+      phpize('$a and $b').should == '$a && $b'
+      phpize{ $a and $b }.should == '$a && $b'
+      phpize('$a && $b').should == '$a && $b'
+      phpize{ $a && $b }.should == '$a && $b'
     end
 
     it "should support the || (logical or) operator" do
       phpize('true || false').should == 'TRUE || FALSE'
       phpize{ true || false }.should == 'TRUE || FALSE'
-      phpize('a or b').should == '$a || $b'
-      phpize{ a or b }.should == '$a || $b'
-      phpize('a || b').should == '$a || $b'
-      phpize{ a || b }.should == '$a || $b'
+      phpize('$a or $b').should == '$a || $b'
+      phpize{ $a or $b }.should == '$a || $b'
+      phpize('$a || $b').should == '$a || $b'
+      phpize{ $a || $b }.should == '$a || $b'
     end
   end
 

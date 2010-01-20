@@ -2,7 +2,7 @@
 require 'php'
 
 PHP.eval do
-  for fruit in ['apple', 'banana', 'cranberry']
-    echo "#{fruit}\n"
+  for $fruit in ['apple', 'banana', 'cranberry']
+    echo "#{$fruit}\n"
   end
 end

@@ -144,7 +144,7 @@ module PHP
     # @param  [Array(Symbol)] exp
     # @return [Variable]
     def process_gvar(exp)
-      Variable.new(exp.shift.to_s[1..-1], :global => true) # NOTE: removes the leading '$' character
+      Variable.new(exp.shift.to_s[1..-1]) # NOTE: removes the leading '$' character
     end
 
     ##
@@ -156,9 +156,9 @@ module PHP
     # @param  [Array(Symbol, Array)] exp
     # @return [Operator::Assignment]
     def process_gasgn(exp)
-      var = Variable.new(exp.shift.to_s[1..-1], :global => true) # NOTE: removes the leading '$' character
+      var = Variable.new(exp.shift.to_s[1..-1]) # NOTE: removes the leading '$' character
       val = process(exp.shift)
-      Operator::Assignment.new(var, val)
+      val ? Operator::Assignment.new(var, val) : var
     end
 
     ##
@@ -182,12 +182,7 @@ module PHP
     # @param  [Array(Symbol)] exp
     # @return [Variable]
     def process_vcall(exp) # FIXME
-      if exp.size == 1
-        # FIXME: for now, we're assuming this is a reference to a local variable:
-        Variable.new(exp.shift)
-      else
-        raise NotImplementedError.new(exp.inspect) # TODO
-      end
+      raise NotImplementedError.new(exp.inspect) # TODO
     end
 
     ##
@@ -199,22 +194,15 @@ module PHP
     #
     # @param  [Array] exp
     # @return [Node]
-    def process_call(exp) # FIXME
+    def process_call(exp)
       receiver, method, arglist = exp
-      if receiver.nil?
-        arglist = process(arglist)
-        if arglist.to_a.empty?
-          # FIXME: for now, we're assuming this is a reference to a local variable:
-          Variable.new(method)
-        else
-          Function::Call.new(method, *arglist)
-        end
-      else
-        if op = Operator.for(method)
+      case
+        when receiver.nil?
+          Function::Call.new(method, *process(arglist))
+        when op = Operator.for(method)
           op.new(process(receiver), *process(arglist))
         else
           Method::Call.new(process(receiver), method, *process(arglist))
-        end
       end
     end
 
