@@ -4,22 +4,47 @@ PHP.rb: A Ruby to PHP Code Generator
 PHP.rb translates [Ruby](http://www.ruby-lang.org/) code into
 [PHP](http://www.php.net/) code.
 
-Examples
---------
+Usage
+-----
 
     require 'php'
 
 ### Checking the available PHP version
 
-    PHP.version   #=> "5.3.1"
+    PHP.version                               #=> "5.3.1"
 
 ### Generating PHP code using a Ruby block
 
-    PHP.generate { echo "Hello, world!\n" }
+    PHP.generate { echo "Hello, world!\n" }   #=> PHP::Program(...)
 
 ### Evaluating generated PHP on the fly
 
     PHP.eval { echo "Hello, world!\n" }
+
+Examples
+--------
+
+### `foreach` loops (1)
+
+    for fruit in ['apple', 'banana', 'cranberry']
+      echo "#{fruit}\n"
+    end
+
+    <?php
+    foreach (array("apple", "banana", "cranberry") as $fruit) {
+      echo($fruit . "\n");
+    }
+
+### `foreach` loops (2)
+
+    for key, value in {'a' => 1, 'b' => 2, 'c' => 3}
+      echo "#{key} => #{value}\n"
+    end
+
+    <?php
+    foreach (array("a" => 1, "b" => 2, "c" => 3) as $key => $value) {
+      echo($key . " => " . $value . "\n");
+    }
 
 Reference
 ---------

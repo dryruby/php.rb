@@ -11,6 +11,7 @@ module PHP
   autoload :Identifier, 'php/syntax/identifier'
   autoload :Interface,  'php/syntax/interface'
   autoload :Literal,    'php/syntax/literal'
+  autoload :Loop,       'php/syntax/loop'
   autoload :Namespace,  'php/syntax/namespace'
   autoload :Node,       'php/syntax/node'
   autoload :Operator,   'php/syntax/operator'

@@ -418,6 +418,18 @@ module PHP
     end
 
     ##
+    # Processes `[:for, iterable, variables, block]` expressions.
+    #
+    # @example
+    #   process([:for, [:lvar, :numbers], [:lasgn, :number]])
+    #
+    # @param  [Array(Array, Array, Array)] exp
+    # @return [Loop::ForEach]
+    def process_for(exp)
+      Loop::ForEach.new(process(exp.shift), process(exp.shift), process(exp.shift))
+    end
+
+    ##
     # Processes `[:not, operand]` expressions.
     #
     # @example

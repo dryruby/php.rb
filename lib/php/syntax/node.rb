@@ -21,7 +21,7 @@ module PHP
     #
     # @return [Boolean]
     def children?
-      children.size > 0
+      @children && @children.size > 0
     end
 
     ##
