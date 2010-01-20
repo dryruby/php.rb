@@ -62,42 +62,43 @@ Examples
 Reference
 ---------
 
-Ruby input                        | PHP output
-----------------------------------|--------------------------------------
-`nil`                             | `NULL`
-`false`                           | `FALSE`
-`true`                            | `TRUE`
-`42`                              | `42`
-`3.1415`                          | `3.1415`
-`"Hello, world!"`                 | `"Hello, world!"`
-`"<#{url}>"`                      | `"<" . $url . ">"`
-`/a-z/`                           | `'/a-z/'`
-`[]`                              | `array()`
-`[1, 2, 3]`                       | `array(1, 2, 3)`
-`{}`                              | `array()`
-`{"a" => 1, "b" => 2, "c" => 3}`  | `array("a" => 1, "b" => 2, "c" => 3)`
-`$foo`                            | `$GLOBALS['foo']`
-`$foo = 123`                      | `$GLOBALS['foo'] = 123`
-`foo`                             | `$foo`
-`foo = 123`                       | `$foo = 123`
-`def foo(x, y); end`              | `function foo($x, $y) {}`
-`a << b`                          | `$a . $b` (*)
-`a + b`                           | `$a + $b`
-`a - b`                           | `$a - $b`
-`a * b`                           | `$a * $b`
-`a / b`                           | `$a / $b`
-`a % b`                           | `$a % $b`
-`a = b`                           | `$a = $b`
-`a == b`                          | `$a == $b`
-`a === b`                         | `$a === $b` (*)
-`a != b`                          | `$a != $b`
-`a < b`                           | `$a < $b`
-`a > b`                           | `$a > $b`
-`a <= b`                          | `$a <= $b`
-`a >= b`                          | `$a >= $b`
-`array[index]`                    | `$array[$index]`
-`object[:property]`               | `$object->property`
-`object.method`                   | `$object->method()`
+    Ruby input                           | PHP output
+    -------------------------------------|--------------------------------------
+    nil                                  | NULL
+    false                                | FALSE
+    true                                 | TRUE
+    42                                   | 42
+    3.1415                               | 3.1415
+    "Hello, world!"                      | "Hello, world!"
+    "<#{url}>"                           | "<" . $url . ">"
+    /a-z/                                | '/a-z/'
+    []                                   | array()
+    [1, 2, 3]                            | array(1, 2, 3)
+    {}                                   | array()
+    {"a" => 1, "b" => 2, "c" => 3}       | array("a" => 1, "b" => 2, "c" => 3)
+    $foo                                 | $GLOBALS['foo']
+    $foo = 123                           | $GLOBALS['foo'] = 123
+    foo                                  | $foo
+    foo = 123                            | $foo = 123
+    lambda { |x, y| }                    | function($x, $y) {}
+    def foo(x, y); end                   | function foo($x, $y) {}
+    a << b                               | $a . $b                           (*)
+    a + b                                | $a + $b
+    a - b                                | $a - $b
+    a * b                                | $a * $b
+    a / b                                | $a / $b
+    a % b                                | $a % $b
+    a = b                                | $a = $b
+    a == b                               | $a == $b
+    a === b                              | $a === $b                         (*)
+    a != b                               | $a != $b
+    a < b                                | $a < $b
+    a > b                                | $a > $b
+    a <= b                               | $a <= $b
+    a >= b                               | $a >= $b
+    array[index]                         | $array[$index]
+    object[:property]                    | $object->property
+    object.method                        | $object->method()
 
 Limitations
 -----------
@@ -108,7 +109,8 @@ Limitations
   Therefore PHP.rb defines `user.name` to be equivalent to the latter (the
   method call), and defines the syntax `user[:name]` to be equivalent to the
   former (the property access). Note that this does not conflict with array
-  subscript access since Ruby symbols have no semantic equivalent in PHP.
+  subscript access since Ruby symbol objects have no semantic equivalent in
+  PHP.
 
 Documentation
 -------------
