@@ -55,8 +55,8 @@ module PHP
       # @param [Expression] else_branch
       def initialize(condition, then_branch, else_branch = nil)
         @condition   = condition
-        @then_branch = then_branch
-        @else_branch = else_branch
+        @then_branch = Block.for(then_branch)
+        @else_branch = Block.for(else_branch)
       end
 
       ##

@@ -344,9 +344,9 @@ module PHP
     #   process([:block, [:nil]])
     #
     # @param  [Array<Array>] exp
-    # @return [Node]
+    # @return [Block]
     def process_block(exp)
-      process(exp.last)
+      Block.new(*exp.map { |exp| process(exp) })
     end
 
     ##

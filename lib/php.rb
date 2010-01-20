@@ -2,6 +2,7 @@ require 'php/version'
 
 module PHP
   # Abstract Syntax Tree (AST) classes
+  autoload :Block,      'php/syntax/block'
   autoload :Class,      'php/syntax/class'
   autoload :Comment,    'php/syntax/comment'
   autoload :Constant,   'php/syntax/constant'
