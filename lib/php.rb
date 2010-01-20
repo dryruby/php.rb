@@ -72,6 +72,10 @@ module PHP
   #
   # @return [Program]
   def self.generate(input = nil, options = {}, &block)
-    PHP::Program.new(PHP::Generator.process(input, options, &block)) # FIXME
+    if php = PHP::Generator.process(input, options, &block)
+      PHP::Program.new(php)
+    else
+      PHP::Program.new
+    end
   end
 end

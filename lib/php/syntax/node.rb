@@ -17,6 +17,14 @@ module PHP
     end
 
     ##
+    # Returns `true` if this AST node contains any child nodes.
+    #
+    # @return [Boolean]
+    def children?
+      children.size > 0
+    end
+
+    ##
     # Executes the given block once for each child node of this AST node.
     #
     # @yield  [node]
