@@ -54,6 +54,23 @@ module PHP
     end
 
     ##
+    # Returns the indentation level for this AST node.
+    #
+    # @return [Integer]
+    def indent
+      @indent ||= 0
+    end
+
+    ##
+    # Defines the indentation level for this AST node.
+    #
+    # @param  [Integer]
+    # @return [void]
+    def indent=(value)
+      @indent = value
+    end
+
+    ##
     # Returns the PHP representation of this AST node.
     #
     # @return [String]
