@@ -46,6 +46,19 @@ Examples
       echo($key . " => " . $value . "\n");
     }
 
+### `while` loops
+
+    result = mysql_query("SELECT name FROM user")
+    while row = mysql_fetch_assoc(result)
+      echo "User.name = #{row['name']}\n"
+    end
+
+    <?php
+    $result = mysql_query("SELECT name FROM user");
+    while ($row = mysql_fetch_assoc($result)) {
+      echo("User.name = " . $row["name"] . "\n");
+    }
+
 Reference
 ---------
 
@@ -82,6 +95,9 @@ Ruby input                        | PHP output
 `a > b`                           | `$a > $b`
 `a <= b`                          | `$a <= $b`
 `a >= b`                          | `$a >= $b`
+`array[index]`                    | `$array[$index]`
+`object[:property]`               | `$object->property`
+`object.method`                   | `$object->method()`
 
 Documentation
 -------------

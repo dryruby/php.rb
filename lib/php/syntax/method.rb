@@ -32,7 +32,18 @@ module PHP
       #
       # @return [String]
       def to_php
-        "#{receiver}->#{method}(#{arguments.join(', ')})"
+        case method
+          when :[]
+            raise "expected a PHP::Literal, got #{arguments.first.inspect}" unless arguments.first.is_a?(Literal)
+            case arguments.first.value
+              when Symbol
+                "#{receiver}->#{arguments.first}"
+              else
+                "#{receiver}[#{arguments.join(', ')}]"
+            end
+          else
+            "#{receiver}->#{method}(#{arguments.join(', ')})"
+        end
       end
     end
   end
