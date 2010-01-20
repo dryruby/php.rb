@@ -62,6 +62,22 @@ module PHP
   end
 
   ##
+  # Outputs the given block of code translated into PHP code.
+  #
+  # @overload dump(input, options = {})
+  #   @param  [String] input
+  #   @param  [Hash{Symbol => Object}] options
+  #
+  # @overload dump(options = {}, &block)
+  #   @yield
+  #   @param  [Hash{Symbol => Object}] options
+  #
+  # @return [void]
+  def self.dump(input = nil, options = {}, &block)
+    puts self.generate(input, options, &block).to_s
+  end
+
+  ##
   # Translates the given block of code into abstract PHP code.
   #
   # @overload generate(input, options = {})
