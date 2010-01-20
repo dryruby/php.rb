@@ -162,6 +162,18 @@ module PHP
     end
 
     ##
+    # Processes `[:lvar, symbol]` expressions.
+    #
+    # @example
+    #   process([:lvar, :foo])
+    #
+    # @param  [Array(Symbol)] exp
+    # @return [Variable]
+    def process_lvar(exp)
+      Variable.new(exp.shift)
+    end
+
+    ##
     # Processes `[:vcall, symbol]` expressions.
     #
     # @example
