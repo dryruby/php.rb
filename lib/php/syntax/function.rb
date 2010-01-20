@@ -3,20 +3,23 @@ module PHP
   # @see http://php.net/manual/en/language.functions.php
   class Function < Expression
     ##
-    # @return [Symbol]
-    attr_accessor :name
-
-    ##
-    # @param  [Symbol, #to_s]         name
-    # @param  [Hash{Symbol => Object} options
-    def initialize(name = nil, options = {}, &block)
-      @name    = Identifier.new(name).to_sym rescue nil
-      @options = options
+    # @param  [Symbol, #to_s] name
+    # @param  [Array<Symbol>] parameters
+    # @param  [Array<Block>]  body
+    def initialize(name = nil, parameters = [], *body, &block)
+      @name       = Identifier.new(name).to_sym rescue nil
+      @parameters = parameters
 
       if block_given?
         # TODO
+      else
+        @children = body.compact.map { |exp| Block.for(exp) }
       end
     end
+
+    ##
+    # @return [Symbol]
+    attr_accessor :name
 
     ##
     # Returns `true` if this is a named function.
@@ -31,7 +34,7 @@ module PHP
     #
     # @return [Boolean]
     def anonymous?
-      @name.nil?
+      name.nil?
     end
 
     alias_method :unnamed?, :anonymous?
@@ -49,7 +52,7 @@ module PHP
     #
     # @return [Array<Symbol>]
     def parameters
-      @options[:parameters] || []
+      @parameters || []
     end
 
     ##
@@ -57,10 +60,11 @@ module PHP
     #
     # @return [String]
     def to_php
+      body = children? ? ('{ ' << children.map(&:to_php).join('; ') << ' }') : '{}'
       if anonymous?
-        "function(#{parameters.join(', ')}) {}" # TODO
+        "function(#{parameters.join(', ')}) " << body # FIXME
       else
-        "function #{name}(#{parameters.join(', ')}) {}" # TODO
+        "function #{name}(#{parameters.join(', ')}) " << body # FIXME
       end
     end
 

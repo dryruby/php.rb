@@ -230,7 +230,7 @@ module PHP
       else
         args = process(args)
         args = args.is_a?(Variable) ? [args] : args.to_a
-        Function.new(nil, :parameters => args)
+        Function.new(nil, args) # FIXME
       end
     end
 
@@ -291,8 +291,12 @@ module PHP
     def process_defn(exp)
       name = exp.shift
       args = (exp.size == 2 ? process(exp.shift) : []).to_a # ParseTree workaround
-      body = process(exp.shift)
-      Function.new(name, :parameters => args) # TODO
+      if exp.first == [:scope, [:block, [:nil]]] # HACK
+        body = nil
+      else
+        body = process(exp.shift)
+      end
+      Function.new(name, args, body)
     end
 
     ##
