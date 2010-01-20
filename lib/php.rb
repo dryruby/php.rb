@@ -12,6 +12,7 @@ module PHP
   autoload :Interface,  'php/syntax/interface'
   autoload :Literal,    'php/syntax/literal'
   autoload :Loop,       'php/syntax/loop'
+  autoload :Method,     'php/syntax/method'
   autoload :Namespace,  'php/syntax/namespace'
   autoload :Node,       'php/syntax/node'
   autoload :Operator,   'php/syntax/operator'

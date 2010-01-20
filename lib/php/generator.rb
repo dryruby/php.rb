@@ -213,7 +213,7 @@ module PHP
         if op = Operator.for(method)
           op.new(process(receiver), *process(arglist))
         else
-          raise NotImplementedError.new(exp.inspect) # TODO: Method::Call.new(receiver, method, *arglist)
+          Method::Call.new(process(receiver), method, *process(arglist))
         end
       end
     end
