@@ -3,6 +3,31 @@ module PHP
   # @see http://php.net/manual/en/language.control-structures.php
   class Loop < Expression
     ##
+    # @see http://php.net/manual/en/control-structures.while.php
+    class While < Loop
+      ##
+      # @return [Expression]
+      attr_accessor :condition
+
+      ##
+      # @param  [Expression]   condition
+      # @param  [Array<Block>] body
+      def initialize(condition, *body)
+        @condition = condition
+        @children  = body.map { |exp| Block.for(exp) }
+      end
+
+      ##
+      # Returns the PHP representation of this `while` loop.
+      #
+      # @return [String]
+      def to_php
+        body = children.map(&:to_php).join('; ')
+        "while (#{condition}) { #{body} }" # FIXME
+      end
+    end
+
+    ##
     # @see http://php.net/manual/en/control-structures.foreach.php
     class ForEach < Loop
       ##

@@ -430,6 +430,18 @@ module PHP
     end
 
     ##
+    # Processes `[:while, condition, block]` expressions.
+    #
+    # @example
+    #   process([:while, [:true], [:call, nil, :puts, [:arglist, [:str, "looping..."]]], true])
+    #
+    # @param  [Array(Array, Array, Boolean)] exp
+    # @return [Loop::While]
+    def process_while(exp)
+      Loop::While.new(process(exp.shift), process(exp.shift))
+    end
+
+    ##
     # Processes `[:not, operand]` expressions.
     #
     # @example
