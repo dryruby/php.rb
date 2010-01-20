@@ -99,6 +99,17 @@ Ruby input                        | PHP output
 `object[:property]`               | `$object->property`
 `object.method`                   | `$object->method()`
 
+Limitations
+-----------
+
+* Ruby method calls, e.g. `user.name`, are in principle ambiguous when
+  translated into PHP, because they could resolve into either a property
+  access as in `$user->name` or a method call as in `$user->name()`.
+  Therefore PHP.rb defines `user.name` to be equivalent to the latter (the
+  method call), and defines the syntax `user[:name]` to be equivalent to the
+  former (the property access). Note that this does not conflict with array
+  subscript access since Ruby symbols have no semantic equivalent in PHP.
+
 Documentation
 -------------
 
