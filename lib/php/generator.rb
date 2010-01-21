@@ -25,7 +25,7 @@ module PHP
         #input = ParseTree.translate(input)
         input = RubyParser.new.process(input).to_a
       end
-      input.size > 0 ? self.new.process(input) : nil
+      input.size > 0 ? Block.for(self.new.process(input)) : nil
     end
 
     ##
