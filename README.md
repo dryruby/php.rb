@@ -91,6 +91,8 @@ The following cheat sheet demonstrates the PHP output generated for various
 types of Ruby expressions. The rows marked with an asterisk, `(*)`, may have
 special semantics that need to be taken into account.
 
+### Literals
+
     Ruby input                           | PHP output
     -------------------------------------|--------------------------------------
     nil                                  | NULL
@@ -105,17 +107,67 @@ special semantics that need to be taken into account.
     [1, 2, 3]                            | array(1, 2, 3)
     {}                                   | array()
     {"a" => 1, "b" => 2, "c" => 3}       | array("a" => 1, "b" => 2, "c" => 3)
+
+### Variables
+
+    Ruby input                           | PHP output
+    -------------------------------------|--------------------------------------
     $foo                                 | $foo
     $foo = 123                           | $foo = 123
+
+### Functions
+
+    Ruby input                           | PHP output
+    -------------------------------------|--------------------------------------
     lambda { |$x, $y| }                  | function($x, $y) {}
     def foo(x, y); end                   | function foo($x, $y) {}
+    time                                 | time()
+    time()                               | time()
+
+### Methods
+
+    Ruby input                           | PHP output
+    -------------------------------------|--------------------------------------
+    $array[$index]                       | $array[$index]
+    $object[:property]                   | $object->property                 (*)
+    $object.method                       | $object->method()
+
+### String operators
+
+    Ruby input                           | PHP output
+    -------------------------------------|--------------------------------------
     $a << $b                             | $a . $b                           (*)
+
+### Arithmetic operators
+
+    Ruby input                           | PHP output
+    -------------------------------------|--------------------------------------
+    -$a                                  | -$a
     $a + $b                              | $a + $b
     $a - $b                              | $a - $b
     $a * $b                              | $a * $b
     $a / $b                              | $a / $b
     $a % $b                              | $a % $b
+
+### Assignment operators
+
+    Ruby input                           | PHP output
+    -------------------------------------|--------------------------------------
     $a = $b                              | $a = $b
+
+### Bitwise operators
+
+    Ruby input                           | PHP output
+    -------------------------------------|--------------------------------------
+    ~$a                                  | ~$a
+    $a & $b                              | $a & $b
+    $a | $b                              | $a | $b
+    $a ^ $b                              | $a ^ $b
+
+### Comparison operators
+
+    Ruby input                           | PHP output
+    -------------------------------------|--------------------------------------
     $a == $b                             | $a == $b
     $a === $b                            | $a === $b                         (*)
     $a != $b                             | $a != $b
@@ -123,9 +175,31 @@ special semantics that need to be taken into account.
     $a > $b                              | $a > $b
     $a <= $b                             | $a <= $b
     $a >= $b                             | $a >= $b
-    $array[$index]                       | $array[$index]
-    $object[:property]                   | $object->property                 (*)
-    $object.method                       | $object->method()
+
+### Execution operators
+
+    Ruby input                           | PHP output
+    -------------------------------------|--------------------------------------
+    `hostname`                           | `hostname`
+
+### Logical operators
+
+    Ruby input                           | PHP output
+    -------------------------------------|--------------------------------------
+    !$a                                  | !$a
+    $a && $b                             | $a && $b
+    $a || $b                             | $a || $b
+
+### Control structures
+
+    Ruby input                           | PHP output
+    -------------------------------------|--------------------------------------
+    return                               | return
+    return $x                            | return $x
+    if true then ... else ... end        | if (TRUE) { ... } else { ... }
+    unless true then ... else ... end    | if (!TRUE) { ... } else { ... }
+    while $x; ...; end                   | while ($x) { ... }
+    for $x in $y; ...; end               | foreach ($y as $x) { ... }
 
 Limitations
 -----------

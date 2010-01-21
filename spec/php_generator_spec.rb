@@ -104,11 +104,15 @@ describe PHP::Generator do
     it "should support functions of one parameter" do
       phpize('lambda { |x| }').should == 'function($x) {}'
       phpize{ lambda { |x| } }.should == 'function($x) {}'
+      phpize('lambda { |$x| }').should == 'function($x) {}'
+      phpize{ lambda { |$x| } }.should == 'function($x) {}'
     end
 
     it "should support functions of many parameters" do
       phpize('lambda { |x, y| }').should == 'function($x, $y) {}'
       phpize{ lambda { |x, y| } }.should == 'function($x, $y) {}'
+      phpize('lambda { |$x, $y| }').should == 'function($x, $y) {}'
+      phpize{ lambda { |$x, $y| } }.should == 'function($x, $y) {}'
     end
 
     #it "should support functions of variable arity" # TODO
@@ -136,7 +140,10 @@ describe PHP::Generator do
   end
 
   context "function calls" do
-    #it "should support function calls with zero arguments" # TODO
+    it "should support function calls with zero arguments" do
+      phpize('time').should == 'time()'
+      phpize{ time }.should == 'time()'
+    end
 
     it "should support function calls with one argument" do
       phpize('inc(1)').should == 'inc(1)'
@@ -144,8 +151,8 @@ describe PHP::Generator do
     end
 
     it "should support function calls with many arguments" do
-      phpize('add(1, 2)').should == 'add(1, 2)'
-      phpize{ add(1, 2) }.should == 'add(1, 2)'
+      phpize('max(1, 2)').should == 'max(1, 2)'
+      phpize{ max(1, 2) }.should == 'max(1, 2)'
     end
 
     #it "should support function calls with splat arguments" # TODO
@@ -182,7 +189,8 @@ describe PHP::Generator do
     it "should support the - (negation) operator" do
       phpize('-1').should == '-1'
       phpize{ -1 }.should == '-1'
-      # phpize('-a').should == '-$a' TODO
+      phpize('-$a').should == '-$a'
+      phpize{ -$a }.should == '-$a'
     end
 
     it "should support the + (addition) operator" do
