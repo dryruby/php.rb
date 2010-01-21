@@ -6,7 +6,7 @@ PHP.rb: A Ruby to PHP Code Generator
 > -- Anonymous on [comp.lang.lisp](http://lispers.org/#money)
 
 `PHP.rb` translates [Ruby][] code into [PHP][] code by obtaining the [parse
-tree][ParseTree] for a Ruby expression, translating that into an [abstract
+tree][ParseTree] for a Ruby expression, transforming that into an [abstract
 syntax tree][AST] (AST) compatible with PHP, and then generating valid PHP
 code as the final output.
 
