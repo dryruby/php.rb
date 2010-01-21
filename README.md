@@ -196,7 +196,9 @@ special semantics that need to be taken into account.
     Ruby input                           | PHP output
     -------------------------------------|--------------------------------------
     !$a                                  | !$a
+    $a and $b                            | $a && $b
     $a && $b                             | $a && $b
+    $a or $b                             | $a || $b
     $a || $b                             | $a || $b
 
 ### Control structures
