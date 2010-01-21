@@ -492,5 +492,25 @@ module PHP
     def process_xstr(exp)
       Operator::Execution.new(exp.shift)
     end
+
+    ##
+    # Processes `[:match2, pattern, subject]` expressions.
+    #
+    # @example
+    #   process{/a-z/ =~ "a"} == process([:match2, [:lit, /a-z/], [:str, "a"]])
+    #   process{/a-z/ =~ $x } == process([:match2, [:lit, /a-z/], [:gvar, :$x]])
+    def process_match2(exp)
+      process_match3(exp)
+    end
+
+    ##
+    # Processes `[:match3, pattern, subject]` expressions.
+    #
+    # @example
+    #   process{"a" =~ /a-z/} == process([:match3, [:lit, /a-z/], [:str, "a"]])
+    #   process{$x  =~ /a-z/} == process([:match3, [:lit, /a-z/], [:gvar, :$x]])
+    def process_match3(exp)
+      Function::Call.new(:preg_match, process(exp.shift), process(exp.shift))
+    end
   end
 end

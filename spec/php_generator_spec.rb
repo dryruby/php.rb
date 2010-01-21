@@ -425,6 +425,20 @@ describe PHP::Generator do
     #it "should support switch statements"   # TODO
   end
 
+  context "regular expressions" do
+    it "should support positive matches" do
+      phpize('/^\d+$/ =~ "123"').should == %q(preg_match('/^\d+$/', "123"))
+      phpize('"123" =~ /^\d+$/').should == %q(preg_match('/^\d+$/', "123"))
+      phpize('$pattern =~ $string').should == %q(preg_match($pattern, $string))
+    end
+
+    it "should support negative matches" do
+      phpize('/^\d+$/ !~ "123"').should == %q(!preg_match('/^\d+$/', "123"))
+      phpize('"123" !~ /^\d+$/').should == %q(!preg_match('/^\d+$/', "123"))
+      phpize('$pattern !~ $string').should == %q(!preg_match($pattern, $string))
+    end
+  end
+
   def phpize(input = nil, &block)
     if block_given?
       PHP::Generator.process(&block).to_s

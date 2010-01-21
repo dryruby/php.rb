@@ -233,6 +233,17 @@ special semantics that need to be taken into account.
     MyClass.new($options)                | new MyClass($options)
     MyClass.new("abc" => 123)            | new MyClass(array("abc" => 123))
 
+### Regular expressions
+
+    Ruby input                           | PHP output
+    -------------------------------------|--------------------------------------
+    /^\d+$/ =~ "123"                     | preg_match('/^\d+$/', "123")
+    /^\d+$/ !~ "123"                     | !preg_match('/^\d+$/', "123")
+    "123" =~ /^\d+$/                     | preg_match('/^\d+$/', "123")
+    "123" !~ /^\d+$/                     | !preg_match('/^\d+$/', "123")
+    $pattern =~ $string                  | preg_match($pattern, $string)
+    $pattern !~ $string                  | !preg_match($pattern, $string)
+
 Limitations
 -----------
 
