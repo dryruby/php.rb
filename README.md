@@ -223,7 +223,8 @@ special semantics that need to be taken into account.
     Ruby input                           | PHP output
     -------------------------------------|--------------------------------------
     MyClass.new                          | new MyClass
-    MyClass.new($argument)               | new MyClass($argument)
+    MyClass.new($options)                | new MyClass($options)
+    MyClass.new("abc" => 123)            | new MyClass(array("abc" => 123))
 
 Limitations
 -----------
@@ -233,8 +234,8 @@ Limitations
 `PHP.rb` is not Ruby for PHP, merely PHP for Ruby.
 
 You don't have the Ruby standard library available in your generated code. 
-To generate runnable PHP code, you can't say e.g.  `"foobar".size` and must
-rather say `strlen("foobar")`.
+To generate runnable PHP code, you can't expect e.g. `"foobar".size` to
+work, but must rather say `strlen("foobar")`.
 
 ### Method calls vs property access
 
