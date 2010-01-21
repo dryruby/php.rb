@@ -214,10 +214,10 @@ special semantics that need to be taken into account.
 
     Ruby input                           | PHP output
     -------------------------------------|--------------------------------------
-    if true then ... else ... end        | if (TRUE) { ... } else { ... }
     ... if true                          | if (TRUE) { ... }
-    unless true then ... else ... end    | if (!TRUE) { ... } else { ... }
+    if true then ... else ... end        | if (TRUE) { ... } else { ... }
     ... unless true                      | if (!TRUE) { ... }
+    unless true then ... else ... end    | if (!TRUE) { ... } else { ... }
     while $x; ...; end                   | while ($x) { ... }
     until $x; ...; end                   | while (!$x) { ... }
     for $x in $y; ...; end               | foreach ($y as $x) { ... }

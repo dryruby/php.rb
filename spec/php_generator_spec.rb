@@ -189,7 +189,17 @@ describe PHP::Generator do
   end
 
   context "instance method calls" do
-    #it "should support instance method calls" # TODO
+    it "should support instance method calls" do
+      phpize('$object.method').should == '$object->method()'
+      phpize{ $object.method }.should == '$object->method()'
+    end
+  end
+
+  context "string operators" do
+    it "should support the . (concatenation) operator" do
+      phpize('"123" << "456"').should == '"123" . "456"'
+      phpize{ "123" << "456" }.should == '"123" . "456"'
+    end
   end
 
   context "arithmetic operators" do
@@ -246,6 +256,13 @@ describe PHP::Generator do
   end
 
   context "bitwise operators" do
+    it "should support the ~ (bitwise not) operator" do
+      phpize('~1').should == '~1'
+      phpize{ ~1 }.should == '~1'
+      phpize('~$x').should == '~$x'
+      phpize{ ~$x }.should == '~$x'
+    end
+
     it "should support the & (bitwise and) operator" do
       phpize('1 & 0').should == '1 & 0'
       phpize{ 1 & 0 }.should == '1 & 0'
@@ -265,13 +282,6 @@ describe PHP::Generator do
       phpize{ 1 ^ 0 }.should == '1 ^ 0'
       phpize('$a ^ $b').should == '$a ^ $b'
       phpize{ $a ^ $b }.should == '$a ^ $b'
-    end
-
-    it "should support the ~ (bitwise not) operator" do
-      phpize('~1').should == '~1'
-      phpize{ ~1 }.should == '~1'
-      phpize('~$x').should == '~$x'
-      phpize{ ~$x }.should == '~$x'
     end
 
     #it "should support the << (bitwise left shift) operator" # TODO
@@ -361,23 +371,10 @@ describe PHP::Generator do
     end
   end
 
-  context "string operators" do
-    it "should support the . (concatenation) operator" do
-      phpize('"123" << "456"').should == '"123" . "456"'
-      phpize{ "123" << "456" }.should == '"123" . "456"'
-    end
-  end
-
   context "control structures" do
-    it "should support return statements" do
-      phpize('return').should == 'return'
-      phpize{ return }.should == 'return'
-      phpize('return nil').should == 'return NULL'
-      phpize{ return nil }.should == 'return NULL'
-      phpize('return true').should == 'return TRUE'
-      phpize{ return true }.should == 'return TRUE'
-      phpize('return 42').should == 'return 42'
-      phpize{ return 42 }.should == 'return 42'
+    it "should support if statement modifiers" do
+      phpize('return if true').should == 'if (TRUE) { return; }'
+      phpize{ return if true }.should == 'if (TRUE) { return; }'
     end
 
     it "should support if statements with an empty then branch" do
@@ -396,6 +393,11 @@ describe PHP::Generator do
     end
 
     #it "should support if/elseif statements" # TODO
+
+    it "should support unless statement modifiers" do
+      phpize('return unless true').should == 'if (!TRUE) { return; }'
+      phpize{ return unless true }.should == 'if (!TRUE) { return; }'
+    end
 
     it "should support unless statements with an empty then branch" do
       # FIXME: the parse tree for this is at present indistinguishable from
@@ -416,12 +418,39 @@ describe PHP::Generator do
       phpize{ unless false then 1 else 0 end }.should == 'if (FALSE) { 0; } else { 1; }'
     end
 
-    #it "should support while statements"    # TODO
+    it "should support while statements" do
+      phpize('while true; sleep 1; end').should == 'while (TRUE) { sleep(1); }'
+      phpize{ while true; sleep 1; end }.should == 'while (TRUE) { sleep(1); }'
+    end
+
+    it "should support until statements" do
+      phpize('until true; sleep 1; end').should == 'while (!TRUE) { sleep(1); }'
+      phpize{ until true; sleep 1; end }.should == 'while (!TRUE) { sleep(1); }'
+    end
+
     #it "should support do-while statements" # TODO
-    #it "should support for statements"      # TODO
-    #it "should support foreach statements"  # TODO
+
+    it "should support for statements" do
+      phpize('for $x in [1, 2, 3]; echo $x; end').should == 'foreach (array(1, 2, 3) as $x) { echo($x); }'
+      phpize{ for $x in [1, 2, 3]; echo $x; end }.should == 'foreach (array(1, 2, 3) as $x) { echo($x); }'
+      phpize('for $k, $v in {"a" => 1}; echo $k << $v; end').should == 'foreach (array("a" => 1) as $k => $v) { echo($k . $v); }'
+      phpize{ for $k, $v in {"a" => 1}; echo $k << $v; end }.should == 'foreach (array("a" => 1) as $k => $v) { echo($k . $v); }'
+    end
+
     #it "should support break statements"    # TODO
     #it "should support continue statements" # TODO
+
+    it "should support return statements" do
+      phpize('return').should == 'return'
+      phpize{ return }.should == 'return'
+      phpize('return nil').should == 'return NULL'
+      phpize{ return nil }.should == 'return NULL'
+      phpize('return true').should == 'return TRUE'
+      phpize{ return true }.should == 'return TRUE'
+      phpize('return 42').should == 'return 42'
+      phpize{ return 42 }.should == 'return 42'
+    end
+
     #it "should support switch statements"   # TODO
   end
 
