@@ -119,12 +119,12 @@ special semantics that need to be taken into account.
     "Hello, world!"                      | "Hello, world!"
     "<#{$url}>"                          | "<" . $url . ">"
     /a-z/                                | '/a-z/'
+    (1..10)                              | range(1, 10)
+    (1...10)                             | range(1, 9)
     []                                   | array()
     [1, 2, 3]                            | array(1, 2, 3)
     {}                                   | array()
     {"a" => 1, "b" => 2, "c" => 3}       | array("a" => 1, "b" => 2, "c" => 3)
-    (1..10)                              | range(1, 10)
-    (1...10)                             | range(1, 9)
 
 ### Variables
 

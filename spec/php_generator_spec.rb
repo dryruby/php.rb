@@ -42,6 +42,13 @@ describe PHP::Generator do
       phpize{ "#{$prefix}:#{$body}:#{$suffix}" }.should == '$prefix . ":" . $body . ":" . $suffix'
     end
 
+    it "should support numeric range literals" do
+      phpize('(1..10)').should == 'range(1, 10)'
+      phpize{ (1..10) }.should == 'range(1, 10)'
+      phpize('(1...10)').should == 'range(1, 9)'
+      phpize{ (1...10) }.should == 'range(1, 9)'
+    end
+
     it "should support regular expression literals" do
       phpize('/a-z/').should == "'/a-z/'"
       phpize{ /a-z/ }.should == "'/a-z/'"
