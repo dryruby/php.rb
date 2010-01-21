@@ -1,7 +1,14 @@
 PHP.rb: A Ruby to PHP Code Generator
 ====================================
 
-`PHP.rb` translates [Ruby][] code into [PHP][] code.
+> "Will write code that writes code that writes code that writes code for money."
+>
+> -- Anonymous on [comp.lang.lisp](http://lispers.org/#money)
+
+`PHP.rb` translates [Ruby][] code into [PHP][] code by obtaining the [parse
+tree][ParseTree] for a Ruby expression, translating that into an [abstract
+syntax tree][AST] (AST) compatible with PHP, and then generating valid PHP
+code as the final output.
 
 Usage
 -----
@@ -10,9 +17,9 @@ Usage
 
 ### Generating PHP code using a Ruby block
 
-`PHP.generate` returns the translated [abstract syntax tree][AST] (AST) for
-a given Ruby block. The AST can be turned into runnable PHP code by calling
-the `#to_s` method on the resulting `PHP::Program` instance.
+`PHP.generate` returns the translated AST for a given Ruby block. The AST
+can be turned into runnable PHP code by calling the `#to_s` method on the
+resulting `PHP::Program` instance.
 
     PHP.generate { echo "Hello, world!\n" }   #=> PHP::Program(...)
 
@@ -286,7 +293,8 @@ License
 `PHP.rb` is free and unencumbered public domain software. For more
 information, see <http://unlicense.org/> or the accompanying UNLICENSE file.
 
-[PHP]:      http://www.php.net/
-[Ruby]:     http://www.ruby-lang.org/
-[AST]:      http://en.wikipedia.org/wiki/Abstract_syntax_tree
-[examples]: http://github.com/bendiken/php/tree/master/doc/examples/
+[PHP]:       http://www.php.net/
+[Ruby]:      http://www.ruby-lang.org/
+[ParseTree]: http://www.zenspider.com/ZSS/Products/ParseTree/
+[AST]:       http://en.wikipedia.org/wiki/Abstract_syntax_tree
+[examples]:  http://github.com/bendiken/php/tree/master/doc/examples/
