@@ -4,6 +4,7 @@ module PHP
   class Operator < Expression
     def self.for(operator)
       case operator
+        when :-@    then Arithmetic::Negation
         when :+     then Arithmetic::Addition
         when :-     then Arithmetic::Subtraction
         when :*     then Arithmetic::Multiplication
