@@ -434,6 +434,18 @@ module PHP
     end
 
     ##
+    # Processes `[:until, condition, block]` expressions.
+    #
+    # @example
+    #   process([:until, [:false], [:call, nil, :puts, [:arglist, [:str, "looping..."]]], true])
+    #
+    # @param  [Array(Array, Array, Boolean)] exp
+    # @return [Loop::While]
+    def process_until(exp)
+      Loop::While.new(Operator::Logical::Not.new(process(exp.shift)), process(exp.shift))
+    end
+
+    ##
     # Processes `[:not, operand]` expressions.
     #
     # @example
