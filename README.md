@@ -201,12 +201,16 @@ special semantics that need to be taken into account.
 
     Ruby input                           | PHP output
     -------------------------------------|--------------------------------------
+    if true then ... else ... end        | if (TRUE) { ... } else { ... }
+    ... if true                          | if (TRUE) { ... }
+    unless true then ... else ... end    | if (!TRUE) { ... } else { ... }
+    ... unless true                      | if (!TRUE) { ... }
+    while $x; ...; end                   | while ($x) { ... }
+    until $x; ...; end                   | while (!$x) { ... }
+    for $x in $y; ...; end               | foreach ($y as $x) { ... }
+    for $k, $v in $z; ...; end           | foreach ($z as $k => $v) { ... }
     return                               | return
     return $x                            | return $x
-    if true then ... else ... end        | if (TRUE) { ... } else { ... }
-    unless true then ... else ... end    | if (!TRUE) { ... } else { ... }
-    while $x; ...; end                   | while ($x) { ... }
-    for $x in $y; ...; end               | foreach ($y as $x) { ... }
 
 Limitations
 -----------
