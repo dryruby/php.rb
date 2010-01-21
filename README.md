@@ -215,6 +215,14 @@ special semantics that need to be taken into account.
 Limitations
 -----------
 
+### This is *not* a Ruby runtime
+
+`PHP.rb` is not Ruby for PHP, merely PHP for Ruby.
+
+You don't have the Ruby standard library available in your generated code. 
+To generate runnable PHP code, you can't say e.g.  `"foobar".size` and must
+rather say `strlen("foobar")`.
+
 ### Method calls vs property access
 
 Ruby method calls, e.g. `$user.name`, are in principle ambiguous when
