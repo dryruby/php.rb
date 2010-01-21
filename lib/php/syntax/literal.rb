@@ -31,6 +31,12 @@ module PHP
         when Float      then value.to_s
         when String     then value.inspect # FIXME
         when Regexp     then "'#{value.inspect}'"
+        when Range
+          if value.exclude_end?
+            "range(#{value.first}, #{value.last - 1})" # FIXME
+          else
+            "range(#{value.first}, #{value.last})"
+          end
         when ::Array
           "array(#{value.join(', ')})"
         when ::Hash
