@@ -1,0 +1,5 @@
+; $Id$
+name = Hello.rb
+description = Hello, world! using <a href="http://php.rubyforge.org/">PHP.rb</a>.
+core = 6.x
+php = 5.0
