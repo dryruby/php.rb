@@ -1,6 +1,6 @@
 module PHP
   ##
-  # @see http://php.net/manual/en/language.expressions.php
+  # @see http://php.net/manual/en/control-structures.intro.php
   class Statement < Expression
     ##
     # Returns the PHP representation of this statement.
