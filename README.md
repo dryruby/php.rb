@@ -216,6 +216,13 @@ special semantics that need to be taken into account.
     return                               | return
     return $x                            | return $x
 
+### Classes and objects
+
+    Ruby input                           | PHP output
+    -------------------------------------|--------------------------------------
+    MyClass.new                          | new MyClass
+    MyClass.new($argument)               | new MyClass($argument)
+
 Limitations
 -----------
 

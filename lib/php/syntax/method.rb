@@ -33,6 +33,12 @@ module PHP
       # @return [String]
       def to_php
         case method
+          when :new
+            if arguments.empty?
+              "new #{receiver}"
+            else
+              "new #{receiver}(#{arguments.join(', ')})"
+            end
           when :[]
             raise "expected a PHP::Literal, got #{arguments.first.inspect}" unless arguments.first.is_a?(Literal)
             case arguments.first.value
