@@ -40,8 +40,8 @@ module PHP
   # Evaluates a given block of code by invoking the `php` executable.
   #
   # @param  [Hash{Symbol => Object}] options
-  # @option options [IO, #<<] :stdout ($stdout)
-  # @option options [IO, #<<] :stderr ($stderr)
+  # @option options [IO] :stdout ($stdout)
+  # @option options [IO] :stderr ($stderr)
   # @yield
   # @return [void]
   def self.eval(options = {}, &block)
@@ -53,8 +53,8 @@ module PHP
   #
   # @param  [Program, String, #to_s] program
   # @param  [Hash{Symbol => Object}] options
-  # @option options [IO, #<<] :stdout ($stdout)
-  # @option options [IO, #<<] :stderr ($stderr)
+  # @option options [IO] :stdout ($stdout)
+  # @option options [IO] :stderr ($stderr)
   # @return [Process::Status]
   def self.exec(program, options = {})
     require 'open4' unless defined?(Open4)
