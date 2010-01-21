@@ -10,6 +10,8 @@ tree][ParseTree] for a Ruby expression, translating that into an [abstract
 syntax tree][AST] (AST) compatible with PHP, and then generating valid PHP
 code as the final output.
 
+* <http://github.com/bendiken/php>
+
 Usage
 -----
 
