@@ -39,9 +39,6 @@ module PHP
             else
               "new #{receiver}(#{arguments.join(', ')})"
             end
-          when :=~
-            # @see PHP::Generator#process_{match2,match3}
-            "preg_match(#{receiver}, #{arguments.join(', ')})"
           when :[]
             raise "expected a PHP::Literal, got #{arguments.first.inspect}" unless arguments.first.is_a?(Literal)
             case arguments.first.value

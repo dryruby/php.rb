@@ -499,6 +499,9 @@ module PHP
     # @example
     #   process{/a-z/ =~ "a"} == process([:match2, [:lit, /a-z/], [:str, "a"]])
     #   process{/a-z/ =~ $x } == process([:match2, [:lit, /a-z/], [:gvar, :$x]])
+    #
+    # @param  [Array(Array, Array)] exp
+    # @return [Operator::Regex::Match]
     def process_match2(exp)
       process_match3(exp)
     end
@@ -509,8 +512,11 @@ module PHP
     # @example
     #   process{"a" =~ /a-z/} == process([:match3, [:lit, /a-z/], [:str, "a"]])
     #   process{$x  =~ /a-z/} == process([:match3, [:lit, /a-z/], [:gvar, :$x]])
+    #
+    # @param  [Array(Array, Array)] exp
+    # @return [Operator::Regex::Match]
     def process_match3(exp)
-      Function::Call.new(:preg_match, process(exp.shift), process(exp.shift))
+      Operator::Regex::Match.new(process(exp.shift), process(exp.shift))
     end
   end
 end

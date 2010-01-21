@@ -27,6 +27,7 @@ module PHP
         when :'&&'  then Logical::And
         when :'||'  then Logical::Or
         when :<<    then String::Concatenation
+        when :=~    then Regex::Match
       end
     end
 
@@ -294,6 +295,22 @@ module PHP
       ##
       class Concatenation < Binary
         def operator() :'.' end
+      end
+    end
+
+    ##
+    # @see http://php.net/manual/en/book.pcre.php
+    module Regex
+      OPERATORS = [:=~]
+
+      ##
+      # @see PHP::Generator#process_match3
+      class Match < Binary
+        def operator() :preg_match end
+
+        def to_php
+          "#{operator}(#{lhs}, #{rhs})"
+        end
       end
     end
   end
